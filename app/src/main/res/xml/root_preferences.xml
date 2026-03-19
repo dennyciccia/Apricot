@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Default filters">
+        <SwitchPreferenceCompat
+            app:key="@string/gluten_free_only_key"
+            app:title="@string/gluten_free_only"
+            app:summary="@string/gluten_free_only_summary"
+            app:defaultValue="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="@string/vegetarian_only_key"
+            app:title="@string/vegetarian_only"
+            app:summary="@string/vegetarian_only_summary"
+            app:defaultValue="false"/>
+
+        <SwitchPreferenceCompat
+            app:key="@string/vegan_only_key"
+            app:title="@string/vegan_only"
+            app:summary="@string/vegan_only_summary"
+            app:defaultValue="false"/>
+
+        <MultiSelectListPreference
+            app:key="@string/cuisines_key"
+            app:title="@string/cuisines"
+            app:summary="@string/cuisines_summary"
+            app:entries="@array/cuisines_labels"
+            app:entryValues="@array/cuisines_values" />
+
+        <MultiSelectListPreference
+            app:key="@string/intolerances_key"
+            app:title="@string/intolerances"
+            app:summary="@string/intolerances_summary"
+            app:entries="@array/intolerances_labels"
+            app:entryValues="@array/intolerances_values" />
+
+        <EditTextPreference
+            app:key="@string/max_ready_time_key"
+            app:title="@string/max_ready_time"
+            app:summary="@string/max_ready_time_summary" />
+
+        <EditTextPreference
+            app:key="@string/results_limit_key"
+            app:title="@string/results_limit"
+            app:summary="@string/results_limit_summary" />
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

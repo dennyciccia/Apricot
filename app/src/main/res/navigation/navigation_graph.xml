@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.apricot.app.ui.fragments.HomeFragment"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFormFragment"
+            app:destination="@id/searchFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFormFragment"
+        android:name="com.apricot.app.ui.fragments.SearchFormFragment"
+        tools:layout="@layout/fragment_search_form" >
+        <action
+            android:id="@+id/action_searchFormFragment_to_displayResultsFragment"
+            app:destination="@id/displayResultsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/displayResultsFragment"
+        android:name="com.apricot.app.ui.fragments.DisplayResultsFragment"
+        tools:layout="@layout/fragment_display_results" >
+        <argument
+            android:name="ingredients"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string" />
+        <argument
+            android:name="types"
+            app:argType="string" />
+        <argument
+            android:name="glutenFree"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="vegetarian"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="vegan"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="cuisines"
+            app:argType="string" />
+        <argument
+            android:name="intolerances"
+            app:argType="string" />
+        <argument
+            android:name="maxReadyTime"
+            app:argType="string" />
+        <argument
+            android:name="resultsLimit"
+            app:argType="string"
+            android:defaultValue="10" />
+        <action
+            android:id="@+id/action_displayResultsFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="com.apricot.app.ui.fragments.RecipeDetailsFragment"
+        tools:layout="@layout/fragment_recipe_details">
+        <argument
+            android:name="recipeID"
+            app:argType="integer" />
+        <argument
+            android:name="dataFromNetwork"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.apricot.app.ui.fragments.FavouritesFragment"
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.apricot.app.ui.fragments.SettingsFragment" />
+</navigation>
