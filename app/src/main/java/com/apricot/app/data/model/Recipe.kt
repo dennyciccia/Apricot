@@ -1,14 +1,19 @@
 package com.apricot.app.data.model
 
 data class Recipe(
-    override val id: Int,
-    override val title: String,
-    override val imageUrl: String,
-    val readyInMinutes: Int,
-    val sourceUrl: String,
-    val dishTypes: List<String>,
-    val isFavourite: Boolean = false,
-) : AbstractRecipe() {
+    val id: Int,
+    val title: String,
+    val imageUrl: String,
+    val readyInMinutes: Int? = null,
+    val sourceUrl: String? = null,
+    val cuisines: List<String>? = null,
+    val glutenFree: Boolean? = null,
+    val sustainable: Boolean? = null,
+    val vegan: Boolean? = null,
+    val vegetarian: Boolean? = null,
+    val dishTypes: List<String>? = null,
+    val isFavourite: Boolean = false
+) {
     fun toFavouriteRecipeEntity() : FavouriteRecipeEntity {
         return FavouriteRecipeEntity(
             id = this.id,

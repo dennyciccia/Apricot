@@ -11,8 +11,8 @@ import com.apricot.app.R
 import com.apricot.app.data.model.Recipe
 
 class RecipeAdapter(
-    public var recipesList: List<AbstractRecipe>,
-    private val onClick: (AbstractRecipe) -> Unit
+    public var recipesList: List<Recipe>,
+    private val onClick: (Recipe) -> Unit
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     // The ViewHolder "finds" the views in the card
@@ -21,7 +21,7 @@ class RecipeAdapter(
         val textViewRecipeTitle: TextView = view.findViewById(R.id.textViewRecipeTitle)
         val textViewRecipeType: TextView = view.findViewById(R.id.textViewRecipeType)
 
-        fun bind(recipe: AbstractRecipe) {
+        fun bind(recipe: Recipe) {
             textViewRecipeTitle.text = recipe.title
             imgRecipe.load(recipe.imageUrl) {crossfade(true)}
             itemView.setOnClickListener { onClick(recipe) }

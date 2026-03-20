@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class DisplayResultsViewModel (private val repository: RecipeRepository) : ViewModel() {
-    private val _recipesList = MutableStateFlow<List<RecipeInComplexSearch>>(emptyList())
-    val recipesList: StateFlow<List<RecipeInComplexSearch>> = _recipesList
+    private val _recipesList = MutableStateFlow<List<Recipe>>(emptyList())
+    val recipesList: StateFlow<List<Recipe>> = _recipesList
     private var isLoaded = false
 
     // Called by fragment to load data

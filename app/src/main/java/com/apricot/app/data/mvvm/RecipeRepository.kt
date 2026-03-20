@@ -12,7 +12,7 @@ class RecipeRepository (
     private val dao : FavouriteDao
 ) {
 
-    suspend fun findRecipes(searchArgs: DisplayResultsFragmentArgs) : List<RecipeInComplexSearch> {
+    suspend fun findRecipes(searchArgs: DisplayResultsFragmentArgs) : List<Recipe> {
         // Preparing request parameters
         var diets = ""
         if (searchArgs.glutenFree) diets += "Gluten Free,"
@@ -30,7 +30,7 @@ class RecipeRepository (
             if (!searchArgs.maxReadyTime.isEmpty()) searchArgs.maxReadyTime else null,
             if (!searchArgs.resultsLimit.isEmpty()) searchArgs.resultsLimit else "100"
         )
-        return response.results
+        return response.results.map { it.toRecipe() }
     }
 
     suspend fun getRecipeDetails(recipeID: Int, fromNetwork: Boolean): Recipe {
