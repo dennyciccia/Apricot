@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="8dp"
+        android:shrinkColumns="1"
         app:layout_constraintTop_toBottomOf="@id/textViewInsertDishInfo">
 
         <TableRow
@@ -30,13 +31,19 @@
             <TextView
                 android:id="@+id/textViewInsertIngredients"
                 android:text="@string/ingredients"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <EditText
                 android:id="@+id/editTextIngredients"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:autofillHints=""
                 android:hint="@string/hint_edit_text_ingredients"
-                android:maxWidth="200dp"
-                android:ellipsize="end" />
+                android:ellipsize="end"
+                android:inputType="text" />
 
         </TableRow>
 
@@ -47,13 +54,19 @@
             <TextView
                 android:id="@+id/textViewQuery"
                 android:text="@string/query"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <EditText
                 android:id="@+id/editTextQuery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:autofillHints=""
                 android:hint="@string/hintEditTextQuery"
-                android:maxWidth="200dp"
-                android:ellipsize="end" />
+                android:ellipsize="end"
+                android:inputType="text" />
 
         </TableRow>
 
@@ -64,17 +77,20 @@
             <TextView
                 android:id="@+id/textViewType"
                 android:text="@string/type"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/selectDishTypeLayout"
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/type">
                 <AutoCompleteTextView
                     android:id="@+id/selectDishType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxWidth="200dp"
                     android:ellipsize="end"
                     android:focusable="false"
                     android:inputType="none" />
@@ -89,11 +105,15 @@
             <TextView
                 android:id="@+id/textViewGlutenFree"
                 android:text="@string/gluten_free_only"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchGlutenFree"
-                android:layout_width="wrap_content"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5" />
 
         </TableRow>
 
@@ -104,11 +124,15 @@
             <TextView
                 android:id="@+id/textViewOnlyVegetarian"
                 android:text="@string/vegetarian_only"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchVegetarian"
-                android:layout_width="wrap_content"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5" />
 
         </TableRow>
 
@@ -119,11 +143,15 @@
             <TextView
                 android:id="@+id/textViewOnlyVegan"
                 android:text="@string/vegan_only"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchVegan"
-                android:layout_width="wrap_content"/>
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5" />
 
         </TableRow>
 
@@ -134,17 +162,20 @@
             <TextView
                 android:id="@+id/textViewCuisines"
                 android:text="@string/cuisines"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/selectCuisineLayout"
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/cuisines">
                 <AutoCompleteTextView
                     android:id="@+id/selectCuisines"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxWidth="200dp"
                     android:ellipsize="end"
                     android:focusable="false"
                     android:inputType="none" />
@@ -159,17 +190,20 @@
             <TextView
                 android:id="@+id/textViewIntolerances"
                 android:text="@string/intolerances"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/selectIntolerancesLayout"
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:hint="@string/intolerances">
                 <AutoCompleteTextView
                     android:id="@+id/selectIntolerances"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxWidth="200dp"
                     android:ellipsize="end"
                     android:focusable="false"
                     android:inputType="none" />
@@ -184,12 +218,17 @@
             <TextView
                 android:id="@+id/textViewMaxReadyTime"
                 android:text="@string/max_ready_time"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <EditText
                 android:id="@+id/editTextMaxReadyTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:autofillHints=""
                 android:hint="@string/hint_edit_text_max_ready_time"
-                android:maxWidth="200dp"
                 android:ellipsize="end"
                 android:inputType="number" />
 
@@ -202,12 +241,17 @@
             <TextView
                 android:id="@+id/textViewResultsLimit"
                 android:text="@string/results_limit"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp" />
 
             <EditText
                 android:id="@+id/editTextResultsLimit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:autofillHints=""
                 android:hint="@string/hint_edit_text_results_limit"
-                android:maxWidth="200dp"
                 android:ellipsize="end"
                 android:inputType="number" />
 
