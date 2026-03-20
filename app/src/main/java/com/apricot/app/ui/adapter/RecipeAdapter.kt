@@ -11,7 +11,7 @@ import com.apricot.app.R
 import com.apricot.app.data.model.Recipe
 
 class RecipeAdapter(
-    public var recipesList: List<Recipe>,
+    var recipesList: List<Recipe>,
     private val onClick: (Recipe) -> Unit
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
@@ -19,7 +19,6 @@ class RecipeAdapter(
     inner class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imgRecipe: ImageView = view.findViewById(R.id.imgRecipe)
         val textViewRecipeTitle: TextView = view.findViewById(R.id.textViewRecipeTitle)
-        val textViewRecipeType: TextView = view.findViewById(R.id.textViewRecipeType)
 
         fun bind(recipe: Recipe) {
             textViewRecipeTitle.text = recipe.title
