@@ -7,7 +7,6 @@
     <string name="hint_edit_text_ingredients">comma separated</string>
     <string name="type">Type</string>
     <string name="search">Search</string>
-    <string name="ready_in">Ready in</string>
     <string name="favourites">Favourites</string>
     <string name="settings">Settings</string>
     <string name="vegetarian_only">Only vegetarian recipes</string>
@@ -43,4 +42,13 @@
     <string name="search_results">Search results</string>
     <string name="favourite_recipes">Favourite recipes</string>
     <string name="no_results">No results</string>
+    <string name="sustainable">This dish is sustainable 🌿</string>
+    <string name="ready_in_text">Ready in: %1$d min</string>
+    <string name="suitable_for_diets_text">Suitable for %1$s diets</string>
+    <string name="price_per_serving_text">Price per serving: €%1$s</string>
+    <string name="recipe_details_link_text">Recipe details available at:\n%1$s</string>
+    <string name="dish_types_text">Dish types: %1$s</string>
+    <string name="dish_classified_as_text">Dish classified as: %1$s</string>
+    <string name="image_view_recipe_detail_content_description">Recipe image</string>
+    <string name="icon_favourite_content_description">Favourite icon</string>
 </resources>

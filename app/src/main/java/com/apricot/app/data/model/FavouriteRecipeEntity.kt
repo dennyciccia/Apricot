@@ -10,7 +10,12 @@ data class FavouriteRecipeEntity(
     val imageUrl: String,
     val readyInMinutes: Int,
     val sourceUrl: String,
-    val dishTypes: String,
+    val cuisines: String,
+    val glutenFree: Boolean,
+    val sustainable: Boolean,
+    val vegan: Boolean,
+    val vegetarian: Boolean,
+    val dishTypes: String
 ) {
     fun toRecipe() : Recipe {
         return Recipe(
@@ -19,7 +24,13 @@ data class FavouriteRecipeEntity(
             imageUrl = this.imageUrl,
             readyInMinutes = this.readyInMinutes,
             sourceUrl = this.sourceUrl,
-            dishTypes = this.dishTypes.split(",")
+            cuisines = this.cuisines.split(","),
+            glutenFree = this.glutenFree,
+            sustainable = this.sustainable,
+            vegan = this.vegan,
+            vegetarian = this.vegetarian,
+            dishTypes = this.dishTypes.split(","),
+            isFavourite = true
         )
     }
 }

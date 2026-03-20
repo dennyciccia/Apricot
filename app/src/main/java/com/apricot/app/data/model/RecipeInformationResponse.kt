@@ -8,7 +8,13 @@ data class RecipeInformationResponse(
     @SerializedName("image") val imageUrl: String,
     val readyInMinutes: Int,
     val sourceUrl: String,
-    val dishTypes: List<String>,
+    val pricePerServing: Double,
+    val cuisines: List<String>,
+    val glutenFree: Boolean,
+    val sustainable: Boolean,
+    val vegan: Boolean,
+    val vegetarian: Boolean,
+    val dishTypes: List<String>
 ) {
     fun toRecipe() : Recipe {
         return Recipe(
@@ -17,7 +23,13 @@ data class RecipeInformationResponse(
             imageUrl = this.imageUrl,
             readyInMinutes = this.readyInMinutes,
             sourceUrl = this.sourceUrl,
-            dishTypes = this.dishTypes
+            cuisines = this.cuisines,
+            glutenFree = this.glutenFree,
+            sustainable = this.sustainable,
+            vegan = this.vegan,
+            vegetarian = this.vegetarian,
+            dishTypes = this.dishTypes,
+            isFavourite = false
         )
     }
 }

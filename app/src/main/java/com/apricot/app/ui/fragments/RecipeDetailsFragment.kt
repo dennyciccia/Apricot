@@ -22,13 +22,6 @@ import com.apricot.app.databinding.FragmentRecipeDetailsBinding
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
-/*
- *  TODO: aggiungere tutte le informazioni utili della ricetta ricevute tramite l'API
- *  - aggiungere views
- *  - cambiare oggetto recipe
- *  - settare le views
- */
-
 class RecipeDetailsFragment : Fragment() {
     private val args: RecipeDetailsFragmentArgs by navArgs()
     private var _binding: FragmentRecipeDetailsBinding? = null
@@ -53,7 +46,7 @@ class RecipeDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = FragmentRecipeDetailsBinding.bind(view)
-        binding.checkBoxFavourite.setOnClickListener { viewModel.toggleFavourite() }
+        binding.iconFavourite.setOnClickListener { viewModel.toggleFavourite() }
         viewModel.loadRecipe(args.recipeID, args.dataFromNetwork)
         setupObservers()
     }
@@ -75,10 +68,54 @@ class RecipeDetailsFragment : Fragment() {
     private fun bindRecipeData(recipe: Recipe) {
         binding.textViewRecipeTitle.text = recipe.title
         binding.imageViewRecipeDetail.load(recipe.imageUrl)
-        binding.checkBoxFavourite.isChecked = recipe.isFavourite
-        binding.textViewReadyIn.text = "Ready in ${recipe.readyInMinutes} minutes"
-        binding.textViewDishTypes.text = "Dish types: ${recipe.dishTypes.joinToString(", ")}"
-        binding.textViewRecipeLink.text = "Recipe detail on ${recipe.sourceUrl}"
+
+        binding.iconFavourite.setImageResource(
+            if (recipe.isFavourite)
+                R.drawable.ic_favourite
+            else
+                R.drawable.ic_favourite_border
+        )
+
+        binding.textViewReadyIn.text = getString(
+            R.string.ready_in_text,
+            recipe.readyInMinutes!!
+        )
+
+        val diets = mutableListOf<String>()
+        if (recipe.glutenFree!!) diets.add("gluten free")
+        if (recipe.vegetarian!!) diets.add("vegetarian")
+        if (recipe.vegan!!) diets.add("vegan")
+        if (diets.isEmpty())
+            binding.textViewDiets.visibility = View.GONE
+        else
+            binding.textViewDiets.text = getString(
+                R.string.suitable_for_diets_text,
+                diets.joinToString(", ")
+            )
+
+        binding.textViewSustainable.visibility = if (recipe.sustainable!!) View.VISIBLE else View.GONE
+
+        binding.textViewRecipeLink.text = getString(
+            R.string.recipe_details_link_text,
+            recipe.sourceUrl!!
+        )
+
+        val dishTypes = recipe.dishTypes!!.filter { type -> type in resources.getStringArray(R.array.dish_types).map { it.lowercase() } }
+        if (dishTypes.isEmpty())
+            binding.textViewDishTypes.visibility = View.GONE
+        else
+            binding.textViewDishTypes.text = getString(
+                R.string.dish_types_text,
+                dishTypes.joinToString(", ")
+            )
+
+        if (recipe.cuisines!!.isEmpty())
+            binding.textViewCuisines.visibility = View.GONE
+        else
+            binding.textViewCuisines.text = getString(
+                R.string.dish_classified_as_text,
+                recipe.cuisines.joinToString(", ")
+            )
     }
 
     override fun onDestroyView() {

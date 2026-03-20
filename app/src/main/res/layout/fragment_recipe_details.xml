@@ -13,6 +13,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,48 +24,88 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:contentDescription="recipeImage"
+        android:contentDescription="@string/image_view_recipe_detail_content_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRecipeTitle" />
+
+    <ImageView
+        android:id="@+id/iconFavourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/icon_favourite_content_description"
+        android:src="@drawable/ic_favourite_border"
+        app:layout_constraintTop_toBottomOf="@id/imageViewRecipeDetail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textViewReadyIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ready_in"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewRecipeDetail" />
+        app:layout_constraintTop_toBottomOf="@+id/iconFavourite"
+        tools:text="Ready in" />
 
     <TextView
-        android:id="@+id/textViewDishTypes"
+        android:id="@+id/textViewDiets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewReadyIn"
-        tools:text="Dish types" />
+        tools:text="Suitable for diets" />
+
+    <TextView
+        android:id="@+id/textViewSustainable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/sustainable"
+        android:visibility="gone"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDiets" />
 
     <TextView
         android:id="@+id/textViewRecipeLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:autoLink="web"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDishTypes"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSustainable"
         tools:text="Link" />
 
-    <CheckBox
-        android:id="@+id/checkBoxFavourite"
+    <TextView
+        android:id="@+id/textViewDishTypes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewRecipeLink"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecipeLink"
+        tools:text="Dish types" />
+
+    <TextView
+        android:id="@+id/textViewCuisines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDishTypes"
+        tools:text="Cuisines" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

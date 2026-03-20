@@ -19,9 +19,14 @@ data class Recipe(
             id = this.id,
             title = this.title,
             imageUrl = this.imageUrl,
-            readyInMinutes = this.readyInMinutes,
-            sourceUrl = this.sourceUrl,
-            dishTypes = this.dishTypes.joinToString(", ")
+            readyInMinutes = this.readyInMinutes!!,
+            sourceUrl = this.sourceUrl!!,
+            cuisines = this.cuisines!!.joinToString(","),
+            glutenFree = this.glutenFree!!,
+            sustainable = this.sustainable!!,
+            vegan = this.vegan!!,
+            vegetarian = this.vegetarian!!,
+            dishTypes = this.dishTypes!!.joinToString(",")
         )
     }
 }
