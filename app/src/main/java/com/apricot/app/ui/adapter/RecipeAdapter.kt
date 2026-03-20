@@ -8,8 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.apricot.app.R
-import com.apricot.app.data.model.AbstractRecipe
-import com.apricot.app.data.model.RecipeInComplexSearch
+import com.apricot.app.data.model.Recipe
 
 class RecipeAdapter(
     public var recipesList: List<AbstractRecipe>,

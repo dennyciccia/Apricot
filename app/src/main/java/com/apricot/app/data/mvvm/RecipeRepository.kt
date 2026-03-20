@@ -2,7 +2,6 @@ package com.apricot.app.data.mvvm
 
 import com.apricot.app.data.database.FavouriteDao
 import com.apricot.app.data.model.Recipe
-import com.apricot.app.data.model.RecipeInComplexSearch
 import com.apricot.app.data.network.RecipeApiService
 import com.apricot.app.ui.fragments.DisplayResultsFragmentArgs
 import kotlinx.coroutines.flow.Flow

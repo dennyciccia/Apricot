@@ -1,6 +1,5 @@
 package com.apricot.app.data.network
 
-import android.util.Log
 import com.apricot.app.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
