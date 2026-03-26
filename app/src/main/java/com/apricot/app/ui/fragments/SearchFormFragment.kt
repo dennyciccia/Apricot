@@ -110,6 +110,21 @@ class SearchFormFragment : Fragment() {
         val resultsLimit = binding.editTextResultsLimit
         resultsLimit.setText(sharedPreferences.getString(resources.getString(R.string.results_limit_key), ""))
 
+        // Button reset
+        val buttonReset = binding.buttonReset
+        buttonReset.setOnClickListener {
+            binding.editTextIngredients.text.clear()
+            binding.editTextQuery.text.clear()
+            typesInputField.text.clear()
+            switchGlutenFree.isChecked = false
+            switchVegetarian.isChecked = false
+            switchVegan.isChecked = false
+            cuisinesInputField.text.clear()
+            intolerancesInputField.text.clear()
+            maxReadyTime.text.clear()
+            resultsLimit.text.clear()
+        }
+
         // Button search
         val buttonSearch = binding.buttonSearch
         buttonSearch.setOnClickListener {

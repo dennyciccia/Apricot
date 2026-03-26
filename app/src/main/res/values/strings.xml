@@ -51,4 +51,5 @@
     <string name="dish_classified_as_text">Dish classified as: %1$s</string>
     <string name="image_view_recipe_detail_content_description">Recipe image</string>
     <string name="icon_favourite_content_description">Favourite icon</string>
+    <string name="reset">Reset</string>
 </resources>
