@@ -9,7 +9,6 @@ import com.google.mediapipe.tasks.vision.imageclassifier.ImageClassifier
 import com.google.mediapipe.tasks.vision.imageclassifier.ImageClassifierResult
 import java.lang.AutoCloseable
 
-
 class PhotoClassifier(private val context: Context) : AutoCloseable {
 
     // lazy makes the classifier created only at its first usage
