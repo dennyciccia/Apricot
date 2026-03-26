@@ -1,6 +1,7 @@
 package com.apricot.app.ui.fragments
 
 import android.app.AlertDialog
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import androidx.fragment.app.Fragment
@@ -8,15 +9,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.apricot.app.R
+import com.apricot.app.data.ml.PhotoClassifier
 import com.apricot.app.databinding.FragmentSearchFormBinding
 
 class SearchFormFragment : Fragment() {
 
     private var _binding: FragmentSearchFormBinding? = null
     private val binding get() = _binding!!
+    private lateinit var photoClassifier: PhotoClassifier
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap: Bitmap? ->
+        if (bitmap != null) {
+            val topResult = photoClassifier.classify(bitmap)
+            showConfirmationDialog(topResult)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +45,14 @@ class SearchFormFragment : Fragment() {
         _binding = FragmentSearchFormBinding.bind(view)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+
+        photoClassifier = PhotoClassifier(requireContext())
+
+        // Ingredients classifier management
+        val imageButtonAddIngredientsFromPhoto = binding.imageButtonAddIngredientsFromPhoto
+        imageButtonAddIngredientsFromPhoto.setOnClickListener {
+            takePictureLauncher.launch(null)
+        }
 
         // Types management
         val dishTypes = resources.getStringArray(R.array.dish_types)
@@ -148,6 +169,29 @@ class SearchFormFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        photoClassifier.close()
+    }
+
+    private fun showConfirmationDialog(topResult: String?) {
+        // Creates and AlertDialog that shows the result of the classifier and asks the user if he/she wants to add the ingredient found (if found)
+        val builder = AlertDialog.Builder(requireContext()).setTitle(resources.getString(R.string.detected_ingredient))
+
+        if (topResult != null) {
+            builder.setMessage("Found: $topResult")
+                .setPositiveButton(R.string.ADD_dialog) { _,_ ->
+                    val currentText = binding.editTextIngredients.text.toString().trim()
+                    if (currentText.isNotEmpty()) {
+                        binding.editTextIngredients.append(", ")
+                    }
+                    binding.editTextIngredients.text.append(topResult)
+                }
+                .setNegativeButton(R.string.deny_dialog, null)
+        } else {
+            builder.setMessage(getString(R.string.no_ingredient_found))
+                .setPositiveButton(R.string.OK_dialog, null)
+        }
+
+        builder.show()
     }
 
     private fun initializeCheckboxesInput(

@@ -52,4 +52,8 @@
     <string name="image_view_recipe_detail_content_description">Recipe image</string>
     <string name="icon_favourite_content_description">Favourite icon</string>
     <string name="reset">Reset</string>
+    <string name="camera">Camera</string>
+    <string name="detected_ingredient">Detected ingredient</string>
+    <string name="ADD_dialog">ADD</string>
+    <string name="no_ingredient_found">No ingredient found</string>
 </resources>

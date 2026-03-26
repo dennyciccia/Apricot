@@ -75,6 +75,7 @@ dependencies {
     implementation("io.coil-kt:coil:2.7.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.room:room-runtime:2.8.4")
+    implementation("com.google.mediapipe:tasks-vision:latest.release")
     kapt("androidx.room:room-compiler:2.8.4")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

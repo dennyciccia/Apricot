@@ -42,17 +42,35 @@
                     android:text="@string/ingredients"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_width="0dp" />
+                    android:layout_width="0dp"
+                    android:layout_gravity="center_vertical"/>
 
-                <EditText
-                    android:id="@+id/editTextIngredients"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:autofillHints=""
-                    android:hint="@string/hint_edit_text_ingredients"
-                    android:ellipsize="end"
-                    android:inputType="text" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageButton
+                        android:id="@+id/imageButtonAddIngredientsFromPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/camera"
+                        android:src="@android:drawable/ic_menu_camera" />
+
+                    <EditText
+                        android:id="@+id/editTextIngredients"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:hint="@string/hint_edit_text_ingredients"
+                        android:inputType="textMultiLine"
+                        android:maxLines="4"
+                        android:scrollbars="vertical"/>
+                </LinearLayout>
 
             </TableRow>
 
@@ -74,8 +92,9 @@
                     android:layout_weight="1.5"
                     android:autofillHints=""
                     android:hint="@string/hintEditTextQuery"
-                    android:ellipsize="end"
-                    android:inputType="text" />
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:scrollbars="vertical" />
 
             </TableRow>
 
