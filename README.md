@@ -8,9 +8,6 @@ Don't know what to eat? Ask Apricot
 - Translator:  
 Possibility to use the app (and ask API) in other languages than english.
 
-- Add ingredients from photo:  
-Add a button to call a function that takes a photo and uses a classifier model to determine the ingredient.
-
 - Filter in DisplayResultsFragment and FavouritesFragment:  
 The user can change search parameters in that fragments and the recycler view is updated automatically.
 

@@ -15,10 +15,11 @@ class PhotoClassifier(private val context: Context) : AutoCloseable {
     private val classifier: ImageClassifier by lazy {
         val options = ImageClassifier.ImageClassifierOptions.builder()
             .setBaseOptions(
-                BaseOptions.builder().setModelAssetPath("efficientnet_lite0.tflite").build()
+                BaseOptions.builder().setModelAssetPath("aiy_vision_classifier_food_v1.tflite").build()
             )
             .setRunningMode(RunningMode.IMAGE)
             .setMaxResults(1)
+            .setDisplayNamesLocale("en")
             .build()
 
         ImageClassifier.createFromOptions(context, options)
@@ -33,7 +34,7 @@ class PhotoClassifier(private val context: Context) : AutoCloseable {
                 .firstOrNull()
                 ?.categories()
                 ?.firstOrNull()
-                ?.categoryName()
+                ?.displayName()
     }
 
     private fun runInference(bitmap: Bitmap): ImageClassifierResult {
