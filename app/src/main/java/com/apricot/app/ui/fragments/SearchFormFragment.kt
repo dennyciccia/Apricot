@@ -39,15 +39,14 @@ class SearchFormFragment : Fragment() {
         val typesUserSelections = mutableListOf<Int>()
         val typesInputField = binding.selectDishType
 
-        typesInputField.setOnClickListener {_ ->
-            onClickListenerForAutocompleteTextView(
-                resources.getString(R.string.choose_types),
-                dishTypes,
-                typesSelectedItems,
-                typesUserSelections,
-                typesInputField
-            )
-        }
+        initializeCheckboxesInput(
+            resources.getString(R.string.choose_types),
+            dishTypes,
+            emptySet(),
+            typesSelectedItems,
+            typesUserSelections,
+            typesInputField
+        )
 
         // Gluten free switch management
         val switchGlutenFree = binding.switchGlutenFree
@@ -72,58 +71,36 @@ class SearchFormFragment : Fragment() {
         }
 
         // Cuisines management
-        val cuisines = resources.getStringArray(R.array.cuisines_labels)
-        val cuisinesSet = sharedPreferences.getStringSet(resources.getString(R.string.cuisines_key), emptySet()) ?: emptySet()
-        val cuisinesSelectedItems = BooleanArray(cuisines.size)
-        val cuisinesUserSelections = mutableListOf<Int>()
-
-        // Synchronize indexes state based on saved preferences
-        cuisines.forEachIndexed { index, cuisineName ->
-            if (cuisinesSet.contains(cuisineName)) {
-                cuisinesSelectedItems[index] = true
-                cuisinesUserSelections.add(index)
-            }
-        }
-
+        val cuisines = resources.getStringArray(R.array.cuisines_labels) // labels
+        val cuisinesPreferencesSet = sharedPreferences.getStringSet(resources.getString(R.string.cuisines_key), emptySet()) ?: emptySet() // saved in preferences
+        val cuisinesSelectedItems = BooleanArray(cuisines.size) // indicates which labels checkbox are checked
+        val cuisinesUserSelections = mutableListOf<Int>() // indexes of the labels chosen by the user
         val cuisinesInputField = binding.selectCuisines
-        cuisinesInputField.setText(cuisinesSet.joinToString(", "))
 
-        cuisinesInputField.setOnClickListener {_ ->
-            onClickListenerForAutocompleteTextView(
-                resources.getString(R.string.choose_cuisines),
-                cuisines,
-                cuisinesSelectedItems,
-                cuisinesUserSelections,
-                cuisinesInputField
-            )
-        }
+        initializeCheckboxesInput(
+            resources.getString(R.string.choose_cuisines),
+            cuisines,
+            cuisinesPreferencesSet,
+            cuisinesSelectedItems,
+            cuisinesUserSelections,
+            cuisinesInputField
+        )
 
         // Intolerances management
         val intolerances = resources.getStringArray(R.array.intolerances_labels)
-        val intolerancesSet = sharedPreferences.getStringSet(resources.getString(R.string.intolerances_key), emptySet()) ?: emptySet()
+        val intolerancesPreferencesSet = sharedPreferences.getStringSet(resources.getString(R.string.intolerances_key), emptySet()) ?: emptySet()
         val intolerancesSelectedItems = BooleanArray(intolerances.size)
         val intolerancesUserSelections = mutableListOf<Int>()
-
-        // Synchronize indexes state based on saved preferences
-        intolerances.forEachIndexed { index, intolerancesName ->
-            if (intolerancesSet.contains(intolerancesName)) {
-                intolerancesSelectedItems[index] = true
-                intolerancesUserSelections.add(index)
-            }
-        }
-
         val intolerancesInputField = binding.selectIntolerances
-        intolerancesInputField.setText(intolerancesSet.joinToString(", "))
 
-        intolerancesInputField.setOnClickListener {_ ->
-            onClickListenerForAutocompleteTextView(
-                resources.getString(R.string.choose_intolerances),
-                intolerances,
-                intolerancesSelectedItems,
-                intolerancesUserSelections,
-                intolerancesInputField
-            )
-        }
+        initializeCheckboxesInput(
+            resources.getString(R.string.choose_intolerances),
+            intolerances,
+            intolerancesPreferencesSet,
+            intolerancesSelectedItems,
+            intolerancesUserSelections,
+            intolerancesInputField
+        )
 
         // Max ready time management
         val maxReadyTime = binding.editTextMaxReadyTime
@@ -158,44 +135,84 @@ class SearchFormFragment : Fragment() {
         _binding = null
     }
 
-    fun onClickListenerForAutocompleteTextView(
+    private fun initializeCheckboxesInput(
         title: String,
         labels: Array<String>,
+        preferencesSet: Set<String>,
         selectedItems: BooleanArray,
         userSelections: MutableList<Int>,
         inputField: AutoCompleteTextView
     ) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(title)
+        // Synchronize indexes state based on saved preferences
+        synchronizeState(labels, preferencesSet, selectedItems, userSelections)
 
-        // Set the checkboxes
-        builder.setMultiChoiceItems(labels, selectedItems) { _, index, isChecked ->
-            if (isChecked) {
+        inputField.setText(preferencesSet.joinToString(", "))
+
+        inputField.setOnClickListener { _ ->
+            /*
+            * Synchronize state arrays with text in inputField
+            */
+            // Clear current state
+            selectedItems.fill(false)
+            userSelections.clear()
+
+            // Get text and get each item
+            val text = inputField.text.toString()
+            if (text.isNotEmpty()) {
+                val currentItems = text.split(",").map { it.trim() }
+                // Synchronize state with text in inputField
+                synchronizeState(labels, currentItems.toSet(), selectedItems, userSelections)
+            }
+
+            /*
+            * Building the alert dialog with checkboxes
+            */
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle(title)
+
+            // Set the checkboxes
+            builder.setMultiChoiceItems(labels, selectedItems) { _, index, isChecked ->
+                if (isChecked) {
+                    userSelections.add(index)
+                } else {
+                    userSelections.remove(index)
+                }
+            }
+
+            // Confirm button
+            builder.setPositiveButton(R.string.OK_dialog) { _, _ ->
+                val stringBuilder = StringBuilder()
+                for (i in userSelections.indices) {
+                    stringBuilder.append(labels[userSelections[i]])
+                    if (i != userSelections.size - 1) stringBuilder.append(", ")
+                }
+                inputField.setText(stringBuilder.toString())
+            }
+
+            builder.setNegativeButton(R.string.deny_dialog, null)
+            builder.show()
+        }
+    }
+
+    private fun synchronizeState(
+        labels: Array<String>,
+        itemSet: Set<String>,
+        selectedItems: BooleanArray,
+        userSelections: MutableList<Int>
+    ) {
+        labels.forEachIndexed { index, cuisineName ->
+            if (itemSet.contains(cuisineName)) {
+                selectedItems[index] = true
                 userSelections.add(index)
-            } else {
-                userSelections.remove(index)
             }
         }
-
-        // Confirm button
-        builder.setPositiveButton(R.string.OK_dialog) { _, _ ->
-            val stringBuilder = StringBuilder()
-            for (i in userSelections.indices) {
-                stringBuilder.append(labels[userSelections[i]])
-                if (i != userSelections.size - 1) stringBuilder.append(", ")
-            }
-            inputField.setText(stringBuilder.toString())
-        }
-
-        builder.setNegativeButton(R.string.deny_dialog, null)
-        builder.show()
     }
 
     fun formatForAPIRequest(text: Editable) : String {
         // returns comma separated strings without spaces
         return text
             .toString()
-            .split(",", "-", "_", ".", ";", ":", " ")
+            .split(",", "-", "_", ".", ";", ":")
             .joinToString(",", transform = String::trim)
     }
 }
