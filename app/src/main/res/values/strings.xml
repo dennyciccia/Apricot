@@ -56,4 +56,5 @@
     <string name="detected_ingredient">Detected ingredient</string>
     <string name="ADD_dialog">ADD</string>
     <string name="no_ingredient_found">No ingredient found</string>
+    <string name="diets">Diets</string>
 </resources>
