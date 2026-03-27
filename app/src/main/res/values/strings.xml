@@ -21,7 +21,7 @@
     <string name="hint_edit_text_max_ready_time">Leave blank if don\'t care</string>
     <string name="hint_edit_text_results_limit">Default 100</string>
     <string name="query">Query</string>
-    <string name="hintEditTextQuery">Query</string>
+    <string name="hint_edit_text_query">Query</string>
     <string name="vegan_only_summary">Show only vegan recipes</string>
     <string name="gluten_free_only_summary">Show only gluten free recipes</string>
     <string name="cuisines_summary">Show only dishes from specified cuisines</string>

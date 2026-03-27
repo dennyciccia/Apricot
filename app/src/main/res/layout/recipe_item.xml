@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:layout_margin="8dp"
@@ -14,6 +16,7 @@
             android:id="@+id/imgRecipe"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/image_view_recipe_detail_content_description"
             android:scaleType="centerCrop"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintWidth_percent="0.33"
