@@ -46,7 +46,8 @@ class SearchFormFragment : Fragment() {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        photoClassifier = PhotoClassifier(requireContext())
+        val useFoodSpecificModel = sharedPreferences.getBoolean(resources.getString(R.string.food_specific_ml_model_key), false)
+        photoClassifier = PhotoClassifier(requireContext(), useFoodSpecificModel)
 
         // Ingredients classifier management
         val imageButtonAddIngredientsFromPhoto = binding.imageButtonAddIngredientsFromPhoto
@@ -55,9 +56,9 @@ class SearchFormFragment : Fragment() {
         }
 
         // Types management
-        val dishTypes = resources.getStringArray(R.array.dish_types)
-        val typesSelectedItems = BooleanArray(dishTypes.size)
-        val typesUserSelections = mutableListOf<Int>()
+        val dishTypes = resources.getStringArray(R.array.dish_types) // labels
+        val typesSelectedItems = BooleanArray(dishTypes.size) // indicates which labels checkbox are checked
+        val typesUserSelections = mutableListOf<Int>() // indexes of the labels chosen by the user
         val typesInputField = binding.selectDishType
 
         initializeCheckboxesInput(
@@ -108,10 +109,10 @@ class SearchFormFragment : Fragment() {
         )
 
         // Intolerances management
-        val intolerances = resources.getStringArray(R.array.intolerances_labels)
-        val intolerancesPreferencesSet = sharedPreferences.getStringSet(resources.getString(R.string.intolerances_key), emptySet()) ?: emptySet()
-        val intolerancesSelectedItems = BooleanArray(intolerances.size)
-        val intolerancesUserSelections = mutableListOf<Int>()
+        val intolerances = resources.getStringArray(R.array.intolerances_labels) // labels
+        val intolerancesPreferencesSet = sharedPreferences.getStringSet(resources.getString(R.string.intolerances_key), emptySet()) ?: emptySet() // saved in preferences
+        val intolerancesSelectedItems = BooleanArray(intolerances.size) // indicates which labels checkbox are checked
+        val intolerancesUserSelections = mutableListOf<Int>() // indexes of the labels chosen by the user
         val intolerancesInputField = binding.selectIntolerances
 
         initializeCheckboxesInput(

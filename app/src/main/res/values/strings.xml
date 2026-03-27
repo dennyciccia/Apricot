@@ -57,4 +57,7 @@
     <string name="ADD_dialog">ADD</string>
     <string name="no_ingredient_found">No ingredient found</string>
     <string name="diets">Diets</string>
+    <string name="food_specific_ml_model_key">food_specific_ml_model</string>
+    <string name="food_specific_ml_model">Use food specific ML model</string>
+    <string name="food_specific_ml_model_summary">Use food specific ML model for ingredient recognition</string>
 </resources>

@@ -9,13 +9,20 @@ import com.google.mediapipe.tasks.vision.imageclassifier.ImageClassifier
 import com.google.mediapipe.tasks.vision.imageclassifier.ImageClassifierResult
 import java.lang.AutoCloseable
 
-class PhotoClassifier(private val context: Context) : AutoCloseable {
+class PhotoClassifier(
+    private val context: Context,
+    private val useFoodSpecificModel: Boolean
+) : AutoCloseable {
+    val defaultModel = "efficientnet_lite0.tflite"
+    val foodSpecificModel = "aiy_vision_classifier_food_v1.tflite"
 
     // lazy makes the classifier created only at its first usage
     private val classifier: ImageClassifier by lazy {
         val options = ImageClassifier.ImageClassifierOptions.builder()
             .setBaseOptions(
-                BaseOptions.builder().setModelAssetPath("aiy_vision_classifier_food_v1.tflite").build()
+                BaseOptions.builder()
+                    .setModelAssetPath(if (useFoodSpecificModel) foodSpecificModel else defaultModel)
+                    .build()
             )
             .setRunningMode(RunningMode.IMAGE)
             .setMaxResults(1)
@@ -29,12 +36,13 @@ class PhotoClassifier(private val context: Context) : AutoCloseable {
         val result = runInference(bitmap)
 
         // Get first result
-        return result.classificationResult()
-                .classifications()
-                .firstOrNull()
-                ?.categories()
-                ?.firstOrNull()
-                ?.displayName()
+        val topResult = result.classificationResult()
+            .classifications()
+            .firstOrNull()
+            ?.categories()
+            ?.firstOrNull()
+
+        return if (useFoodSpecificModel) topResult?.displayName() else topResult?.categoryName()
     }
 
     private fun runInference(bitmap: Bitmap): ImageClassifierResult {
