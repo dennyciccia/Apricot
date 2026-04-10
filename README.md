@@ -18,3 +18,7 @@ Display similar recipes in that fragment by using Spoonacular specific API.
 
 - Save as favourite from DisplayResultsFragment:  
 Add a favourite icon in the recycler view card to allow the user to save the dish as favourite.
+
+## Attributions
+
+App icon: [Vecteezy.com](www.vecteezy.com)
