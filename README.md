@@ -1,6 +1,16 @@
 # Apricot
 Don't know what to eat? Ask Apricot
 
+<p align="center">
+    <img src="./assets/images/apricot_icon.svg" alt="Apricot icon" width="250" />
+</p>
+
+## Screenshots
+
+<img src="./assets/images/search_form_night.jpg" alt="Search form" width="200" /> <img src="./assets/images/search_results_night.jpg" alt="Search results" width="200" />
+<img src="./assets/images/recipe_details_night.jpg" alt="Recipe details" width="200" /> <img src="./assets/images/favourites_night.jpg" alt="Favourite recipes" width="200" />
+<img src="./assets/images/settings_night.jpg" alt="Settings" width="200" />
+
 ## Future additions
 
 - A prettier UI.
