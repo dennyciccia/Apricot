@@ -31,4 +31,4 @@ Add a favourite icon in the recycler view card to allow the user to save the dis
 
 ## Attributions
 
-App icon: [Vecteezy.com](www.vecteezy.com)
+App icon: [Vecteezy.com](https://www.vecteezy.com)
