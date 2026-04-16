@@ -5,11 +5,20 @@ Don't know what to eat? Ask Apricot
     <img src="./assets/images/apricot_icon.svg" alt="Apricot icon" width="250" />
 </p>
 
+Apricot lets you search for recipes based on what you have in the fridge to help you avoid wasting food.
+
 ## Screenshots
 
 <img src="./assets/images/search_form_night.jpg" alt="Search form" width="200" /> <img src="./assets/images/search_results_night.jpg" alt="Search results" width="200" />
 <img src="./assets/images/recipe_details_night.jpg" alt="Recipe details" width="200" /> <img src="./assets/images/favourites_night.jpg" alt="Favourite recipes" width="200" />
 <img src="./assets/images/settings_night.jpg" alt="Settings" width="200" />
+
+## Usage
+
+Import the project in Android Studio.
+
+To run the application properly you need to get an API key from [spoonacular.com](https://www.spoonacular.com/food-api).  
+Place it in `local.properties` file in `SPOONACULAR_API_KEY` variable.
 
 ## Future additions
 
