@@ -36,7 +36,7 @@ Display similar recipes in that fragment by using Spoonacular specific API.
 - More diets as search parameters (whole30, ketogenic, ...)
 
 - Save as favourite from DisplayResultsFragment:  
-Add a favourite icon in the recycler view card to allow the user to save the dish as favourite.
+Add a favourite icon in the recycler view card to allow the user to save the recipe as favourite.
 
 ## Attributions
 

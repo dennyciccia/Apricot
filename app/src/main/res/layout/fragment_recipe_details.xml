@@ -100,7 +100,7 @@
             tools:text="Link" />
 
         <TextView
-            android:id="@+id/textViewDishTypes"
+            android:id="@+id/textViewRecipeTypes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -109,7 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewRecipeLink"
-            tools:text="Dish types" />
+            tools:text="Recipe types" />
 
         <TextView
             android:id="@+id/textViewCuisines"
@@ -120,7 +120,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDishTypes"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRecipeTypes"
             tools:text="Cuisines" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

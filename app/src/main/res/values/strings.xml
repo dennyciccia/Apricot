@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Apricot</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="button_search_dish">Search dish</string>
-    <string name="insert_dish_info">Insert dish information</string>
+    <string name="button_search_recipes">Search recipes</string>
+    <string name="insert_recipe_info">Insert recipe information</string>
     <string name="ingredients">Ingredients</string>
     <string name="hint_edit_text_ingredients">comma separated</string>
     <string name="type">Type</string>
@@ -12,7 +12,7 @@
     <string name="vegetarian_only">Only vegetarian recipes</string>
     <string name="vegetarian_only_summary">Show only vegetarian recipes</string>
     <string name="results_limit">Maximum number of results</string>
-    <string name="results_limit_summary">Set the maximum number of results shown in dish research</string>
+    <string name="results_limit_summary">Set the maximum number of results shown in recipe research</string>
     <string name="cuisines">Cuisines</string>
     <string name="gluten_free_only">Only gluten free recipes</string>
     <string name="vegan_only">Only vegan recipes</string>
@@ -24,10 +24,10 @@
     <string name="hint_edit_text_query">Query</string>
     <string name="vegan_only_summary">Show only vegan recipes</string>
     <string name="gluten_free_only_summary">Show only gluten free recipes</string>
-    <string name="cuisines_summary">Show only dishes from specified cuisines</string>
+    <string name="cuisines_summary">Show only recipes from specified cuisines</string>
     <string name="intolerances_summary">Set your intolerances</string>
-    <string name="max_ready_time_summary">Set the maximum ready time of proposed dishes</string>
-    <string name="choose_types">Choose dish type(s)</string>
+    <string name="max_ready_time_summary">Set the maximum ready time of proposed recipes</string>
+    <string name="choose_types">Choose recipe type(s)</string>
     <string name="OK_dialog">OK</string>
     <string name="deny_dialog">Deny</string>
     <string name="gluten_free_only_key">gluten_free_only</string>
@@ -42,13 +42,13 @@
     <string name="search_results">Search results</string>
     <string name="favourite_recipes">Favourite recipes</string>
     <string name="no_results">No results</string>
-    <string name="sustainable">This dish is sustainable 🌿</string>
+    <string name="sustainable">This recipe is sustainable 🌿</string>
     <string name="ready_in_text">Ready in: %1$d min</string>
     <string name="suitable_for_diets_text">Suitable for %1$s diets</string>
     <string name="price_per_serving_text">Price per serving: €%1$s</string>
     <string name="recipe_details_link_text">Recipe details available at:\n%1$s</string>
-    <string name="dish_types_text">Dish types: %1$s</string>
-    <string name="dish_classified_as_text">Dish classified as: %1$s</string>
+    <string name="recipe_types_text">Recipe types: %1$s</string>
+    <string name="recipe_classified_as_text">Recipe classified as: %1$s</string>
     <string name="image_view_recipe_detail_content_description">Recipe image</string>
     <string name="icon_favourite_content_description">Favourite icon</string>
     <string name="reset">Reset</string>

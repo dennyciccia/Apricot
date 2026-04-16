@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="dish_types">
+    <string-array name="recipe_types">
         <item>Breakfast</item>
         <item>Appetizer</item>
         <item>Main course</item>

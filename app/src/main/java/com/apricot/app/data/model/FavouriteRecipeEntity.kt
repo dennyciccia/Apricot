@@ -15,7 +15,7 @@ data class FavouriteRecipeEntity(
     val sustainable: Boolean,
     val vegan: Boolean,
     val vegetarian: Boolean,
-    val dishTypes: String
+    val recipeTypes: String
 ) {
     fun toRecipe() : Recipe {
         return Recipe(
@@ -29,7 +29,7 @@ data class FavouriteRecipeEntity(
             sustainable = this.sustainable,
             vegan = this.vegan,
             vegetarian = this.vegetarian,
-            dishTypes = this.dishTypes.split(","),
+            recipeTypes = this.recipeTypes.split(","),
             isFavourite = true
         )
     }

@@ -11,7 +11,7 @@ data class Recipe(
     val sustainable: Boolean? = null,
     val vegan: Boolean? = null,
     val vegetarian: Boolean? = null,
-    val dishTypes: List<String>? = null,
+    val recipeTypes: List<String>? = null,
     val isFavourite: Boolean = false
 ) {
     fun toFavouriteRecipeEntity() : FavouriteRecipeEntity {
@@ -26,7 +26,7 @@ data class Recipe(
             sustainable = this.sustainable!!,
             vegan = this.vegan!!,
             vegetarian = this.vegetarian!!,
-            dishTypes = this.dishTypes!!.joinToString(",")
+            recipeTypes = this.recipeTypes!!.joinToString(",")
         )
     }
 }

@@ -56,14 +56,14 @@ class SearchFormFragment : Fragment() {
         }
 
         // Types management
-        val dishTypes = resources.getStringArray(R.array.dish_types) // labels
-        val typesSelectedItems = BooleanArray(dishTypes.size) // indicates which labels checkbox are checked
+        val recipeTypes = resources.getStringArray(R.array.recipe_types) // labels
+        val typesSelectedItems = BooleanArray(recipeTypes.size) // indicates which labels checkbox are checked
         val typesUserSelections = mutableListOf<Int>() // indexes of the labels chosen by the user
-        val typesInputField = binding.selectDishType
+        val typesInputField = binding.selectRecipeType
 
         initializeCheckboxesInput(
             resources.getString(R.string.choose_types),
-            dishTypes,
+            recipeTypes,
             emptySet(),
             typesSelectedItems,
             typesUserSelections,

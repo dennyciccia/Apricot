@@ -10,7 +10,7 @@
         android:id="@+id/buttonSearchHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_search_dish"
+        android:text="@string/button_search_recipes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

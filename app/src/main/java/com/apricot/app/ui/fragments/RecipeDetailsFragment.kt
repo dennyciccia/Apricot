@@ -100,20 +100,20 @@ class RecipeDetailsFragment : Fragment() {
             recipe.sourceUrl!!
         )
 
-        val dishTypes = recipe.dishTypes!!.filter { type -> type in resources.getStringArray(R.array.dish_types).map { it.lowercase() } }
-        if (dishTypes.isEmpty())
-            binding.textViewDishTypes.visibility = View.GONE
+        val recipeTypes = recipe.recipeTypes!!.filter { type -> type in resources.getStringArray(R.array.recipe_types).map { it.lowercase() } }
+        if (recipeTypes.isEmpty())
+            binding.textViewRecipeTypes.visibility = View.GONE
         else
-            binding.textViewDishTypes.text = getString(
-                R.string.dish_types_text,
-                dishTypes.joinToString(", ")
+            binding.textViewRecipeTypes.text = getString(
+                R.string.recipe_types_text,
+                recipeTypes.joinToString(", ")
             )
 
         if (recipe.cuisines!!.isEmpty())
             binding.textViewCuisines.visibility = View.GONE
         else
             binding.textViewCuisines.text = getString(
-                R.string.dish_classified_as_text,
+                R.string.recipe_classified_as_text,
                 recipe.cuisines.joinToString(", ")
             )
     }

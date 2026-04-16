@@ -14,7 +14,7 @@ data class RecipeInformationResponse(
     val sustainable: Boolean,
     val vegan: Boolean,
     val vegetarian: Boolean,
-    val dishTypes: List<String>
+    val recipeTypes: List<String>
 ) {
     fun toRecipe() : Recipe {
         return Recipe(
@@ -28,7 +28,7 @@ data class RecipeInformationResponse(
             sustainable = this.sustainable,
             vegan = this.vegan,
             vegetarian = this.vegetarian,
-            dishTypes = this.dishTypes,
+            recipeTypes = this.recipeTypes,
             isFavourite = false
         )
     }
