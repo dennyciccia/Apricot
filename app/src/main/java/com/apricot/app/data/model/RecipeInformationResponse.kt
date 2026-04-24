@@ -14,7 +14,7 @@ data class RecipeInformationResponse(
     val sustainable: Boolean,
     val vegan: Boolean,
     val vegetarian: Boolean,
-    val recipeTypes: List<String>
+    @SerializedName("dishTypes") val recipeTypes: List<String>
 ) {
     fun toRecipe() : Recipe {
         return Recipe(

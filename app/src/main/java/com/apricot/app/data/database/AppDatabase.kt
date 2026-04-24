@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.apricot.app.data.model.FavouriteRecipeEntity
 
-@Database(entities = [FavouriteRecipeEntity::class], version = 3)
+@Database(entities = [FavouriteRecipeEntity::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favouriteDao(): FavouriteDao
 

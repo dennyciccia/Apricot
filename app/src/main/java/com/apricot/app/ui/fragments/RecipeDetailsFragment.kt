@@ -109,7 +109,12 @@ class RecipeDetailsFragment : Fragment() {
                 recipeTypes.joinToString(", ")
             )
 
-        if (recipe.cuisines!!.isEmpty())
+        var emptyCuisines = true
+        recipe.cuisines!!.forEach { cuisine ->
+            if (cuisine != "")
+                emptyCuisines = false
+        }
+        if (emptyCuisines)
             binding.textViewCuisines.visibility = View.GONE
         else
             binding.textViewCuisines.text = getString(
