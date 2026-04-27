@@ -44,8 +44,9 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        // Set up the click listener in order to always return back to previous fragment
         toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        // Set up the click listener in order to not navigate if already in that fragment
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favouritesFragment, R.id.settingsFragment -> {
