@@ -6,14 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.HomeFragment">
 
+    <ImageView
+        android:id="@+id/imageViewAppIcon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/apricot_icon_raster"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.30" />
+
     <Button
         android:id="@+id/buttonSearchHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_search_recipes"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewAppIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
