@@ -11,20 +11,19 @@ buildscript {
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.legacy.kapt)
     id("androidx.navigation.safeargs.kotlin")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
     namespace = "com.apricot.app"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 37
 
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        compose = true
     }
 
     defaultConfig {
@@ -52,15 +51,39 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
 dependencies {
+    // --- JETPACK COMPOSE (tramite Compose BOM) ---
+    val composeBom = platform("androidx.compose:compose-bom:2026.06.01")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    // Librerie base UI e Fondamenta
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.googlefonts)
+
+    // Material Design 3 (Material You)
+    implementation(libs.androidx.compose.material3)
+
+    // Integrazione con Activity
+    implementation(libs.androidx.activity.compose)
+
+    // Anteprima UI in Android Studio
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+
+    // Navigation (per passare da una schermata all'altra in Compose)
+    implementation(libs.androidx.navigation.compose)
+
+    // Integrazione ViewModel con Compose
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
