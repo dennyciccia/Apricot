@@ -7,7 +7,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,11 +22,11 @@ import com.apricot.app.ui.theme.AppTheme
  * A FAB for scanning an ingredient and call the classifier model.
  */
 @Composable
-fun IngredientScanner(
+fun IngredientScannerFAB(
+    modifier: Modifier = Modifier,
     onScanClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
-    FloatingActionButton(
+    MediumFloatingActionButton(
         onClick = onScanClick,
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -39,10 +41,10 @@ fun IngredientScanner(
 
 @Preview(showBackground = true)
 @Composable
-fun IngredientScannerPreview() {
+fun IngredientScannerFABPreview() {
     AppTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            IngredientScanner(
+            IngredientScannerFAB(
                 onScanClick = { /* Azione mock per ora */ },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
