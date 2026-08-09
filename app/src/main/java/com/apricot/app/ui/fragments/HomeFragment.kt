@@ -18,13 +18,4 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val buttonSearchHome = view.findViewById<Button>(R.id.buttonSearchHome)
-        buttonSearchHome.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_searchFormFragment)
-        }
-    }
 }
