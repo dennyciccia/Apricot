@@ -1,5 +1,8 @@
 package com.apricot.app.data.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class Recipe(
     val id: Int,
     val title: String,
@@ -12,21 +15,23 @@ data class Recipe(
     val vegan: Boolean? = null,
     val vegetarian: Boolean? = null,
     val recipeTypes: List<String>? = null,
-    val isFavourite: Boolean = false
+    val isFavourite: Boolean = false,
+    val usedIngredientCount: Int? = null,
+    val missedIngredientCount: Int? = null
 ) {
     fun toFavouriteRecipeEntity() : FavouriteRecipeEntity {
         return FavouriteRecipeEntity(
             id = this.id,
             title = this.title,
             imageUrl = this.imageUrl,
-            readyInMinutes = this.readyInMinutes!!,
-            sourceUrl = this.sourceUrl!!,
-            cuisines = this.cuisines!!.joinToString(","),
-            glutenFree = this.glutenFree!!,
-            sustainable = this.sustainable!!,
-            vegan = this.vegan!!,
-            vegetarian = this.vegetarian!!,
-            recipeTypes = this.recipeTypes!!.joinToString(",")
+            readyInMinutes = this.readyInMinutes ?: 0,
+            sourceUrl = this.sourceUrl ?: "",
+            cuisines = this.cuisines?.joinToString(",") ?: "",
+            glutenFree = this.glutenFree ?: false,
+            sustainable = this.sustainable ?: false,
+            vegan = this.vegan ?: false,
+            vegetarian = this.vegetarian ?: false,
+            recipeTypes = this.recipeTypes?.joinToString(",") ?: ""
         )
     }
 }

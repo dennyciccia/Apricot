@@ -22,6 +22,10 @@ interface FavouriteDao {
     @Query("SELECT * FROM favourite_recipes")
     fun getAllFavourites(): Flow<List<FavouriteRecipeEntity>>
 
+    // Get all recipes IDs from the database
+    @Query("SELECT id FROM favourite_recipes")
+    suspend fun getAllFavouriteIds(): List<Int>
+
     // Check if a recipe is already in the database (already favourite)
     @Query("SELECT EXISTS(SELECT * FROM favourite_recipes WHERE id = :recipeID)")
     suspend fun exists(recipeID: Int): Boolean

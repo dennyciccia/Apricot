@@ -18,24 +18,39 @@ class DisplayResultsViewModel (private val repository: RecipeRepository) : ViewM
     fun loadRecipesIfNeeded(searchArgs: DisplayResultsFragmentArgs) {
         if(isLoaded) return
 
-        // viewModelScope launches the coroutine linked to ViewModel lifecycle
-        // If ViewModel is destroyed, the call stops automatically
         viewModelScope.launch {
             try {
-                // Ask data to repository and update the state, the fragment will immediately notice
-                _recipesList.value = repository.findRecipes(searchArgs)
+                val recipes = repository.findRecipes(searchArgs)
+                _recipesList.value = recipes
                 isLoaded = true
             } catch (e: Exception) {
-                // API or DB query failed
                 e.printStackTrace()
                 _recipesList.value = emptyList()
                 isLoaded = false
             }
         }
     }
+
+    fun toggleFavorite(recipe: Recipe) {
+        viewModelScope.launch {
+            try {
+                if (recipe.isFavourite) {
+                    repository.removeFromFavorites(recipe)
+                } else {
+                    repository.saveAsFavorite(recipe)
+                }
+                // Update local list state in order to show the change on the UI
+                _recipesList.value = _recipesList.value.map {
+                    if (it.id == recipe.id) it.copy(isFavourite = !recipe.isFavourite) else it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }
 
-// This class instructs Android how to crete my ViewModel
+// This class instructs Android how to create my ViewModel
 class DisplayResultsViewModelFactory(
     private val repository: RecipeRepository
 ) : ViewModelProvider.Factory {

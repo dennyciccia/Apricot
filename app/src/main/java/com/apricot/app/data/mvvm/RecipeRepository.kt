@@ -28,9 +28,18 @@ class RecipeRepository (
             if (!searchArgs.cuisines.isEmpty()) searchArgs.cuisines else null,
             if (!searchArgs.intolerances.isEmpty()) searchArgs.intolerances else null,
             if (!searchArgs.maxReadyTime.isEmpty()) searchArgs.maxReadyTime else null,
-            if (!searchArgs.resultsLimit.isEmpty()) searchArgs.resultsLimit else "100"
+            if (!searchArgs.resultsLimit.isEmpty()) searchArgs.resultsLimit else "100",
+            addRecipeInformation = true,
+            fillIngredients = true
         )
-        return response.results.map { it.toRecipe() }
+
+        // Check if some recipes from the search results are already favorite
+        val favouriteIds = dao.getAllFavouriteIds().toSet()
+        val results = response.results.map {
+            it.toRecipe().copy(isFavourite = favouriteIds.contains(it.id))
+        }
+
+        return results
     }
 
     suspend fun getRecipeDetails(recipeID: Int, fromNetwork: Boolean): Recipe {

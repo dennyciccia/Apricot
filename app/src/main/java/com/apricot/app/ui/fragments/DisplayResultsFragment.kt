@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.apricot.app.R
@@ -16,16 +13,29 @@ import com.apricot.app.data.database.AppDatabase
 import com.apricot.app.data.mvvm.DisplayResultsViewModel
 import com.apricot.app.data.mvvm.DisplayResultsViewModelFactory
 import com.apricot.app.data.mvvm.RecipeRepository
-import com.apricot.app.ui.adapter.RecipeAdapter
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.apricot.app.data.model.Recipe
 import com.apricot.app.data.network.RetrofitInstance
-import com.apricot.app.databinding.FragmentDisplayResultsBinding
-import kotlinx.coroutines.launch
-import kotlin.getValue
+import com.apricot.app.ui.components.CompactRecipeCard
+import com.apricot.app.ui.theme.AppTheme
 
-class DisplayResultsFragment : Fragment() {
+class  DisplayResultsFragment : Fragment() {
     private val args: DisplayResultsFragmentArgs by navArgs()
-    private var _binding: FragmentDisplayResultsBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: DisplayResultsViewModel by viewModels {
         val api = RetrofitInstance.api
         val dao = AppDatabase.getDatabase(requireContext()).favouriteDao()
@@ -37,47 +47,97 @@ class DisplayResultsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display_results, container, false)
+    ): View {
+        return ComposeView(requireContext()).apply {
+            // Dispose of the Composition when the view's LifecycleOwner is destroyed
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                AppTheme {
+                    val onRecipeClick = remember {
+                        { recipe: Recipe ->
+                            val action = DisplayResultsFragmentDirections
+                                .actionDisplayResultsFragmentToRecipeDetailsFragment(recipe.id, true)
+                            findNavController().navigate(action)
+                        }
+                    }
+
+                    DisplayResultsScreen(
+                        viewModel = viewModel,
+                        onRecipeClick = onRecipeClick
+                    )
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Load Recipes (search with GET API)
+        viewModel.loadRecipesIfNeeded(args)
+    }
+}
 
-        _binding = FragmentDisplayResultsBinding.bind(view)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DisplayResultsScreen(
+    viewModel: DisplayResultsViewModel,
+    onRecipeClick: (Recipe) -> Unit
+) {
+    val recipesList by viewModel.recipesList.collectAsState()
+    
+    val onToggleFavorite = remember(viewModel) {
+        { recipe: Recipe -> viewModel.toggleFavorite(recipe) }
+    }
 
-        // Setup RecyclerView
-        val adapter = RecipeAdapter(emptyList()) { recipe ->
-            // Handling of the tap on the card
-            val action =
-                DisplayResultsFragmentDirections.
-                actionDisplayResultsFragmentToRecipeDetailsFragment(recipe.id, true)
-            findNavController().navigate(action)
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.search_results),
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            )
         }
-
-        binding.recyclerViewDisplayResults.adapter = adapter
-
-        // Get data
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.recipesList.collect { recipesList ->
-                    if (!recipesList.isEmpty()) {
-                        // Pass the list of recipes to the adapter
-                        binding.textViewNoResults.visibility = View.GONE
-                        binding.recyclerViewDisplayResults.visibility = View.VISIBLE
-                        adapter.recipesList = recipesList
-                        adapter.notifyDataSetChanged()
-                    } else {
-                        // Show no results text
-                        binding.textViewNoResults.visibility = View.VISIBLE
-                        binding.recyclerViewDisplayResults.visibility = View.GONE
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            if (recipesList.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.no_results),
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontSize = 20.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(
+                        items = recipesList,
+                        key = { it.id },
+                        contentType = { "recipe" }
+                    ) { recipe ->
+                        CompactRecipeCard(
+                            title = recipe.title,
+                            imageUrl = recipe.imageUrl,
+                            availableIngredients = recipe.usedIngredientCount,
+                            totalIngredients = (recipe.usedIngredientCount ?: 0) + (recipe.missedIngredientCount ?: 0),
+                            prepTime = recipe.readyInMinutes?.let { "$it min" },
+                            isFavorite = recipe.isFavourite,
+                            onCardClick = { onRecipeClick(recipe) },
+                            onFavoriteClick = { onToggleFavorite(recipe) }
+                        )
                     }
                 }
             }
         }
-
-        // Load Recipes (serach with GET API)
-        viewModel.loadRecipesIfNeeded(args)
     }
 }

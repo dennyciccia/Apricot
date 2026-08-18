@@ -35,7 +35,7 @@ fun CompactRecipeCard(
     onCardClick: () -> Unit,
     onFavoriteClick: (() -> Unit)? = null,
 ) {
-    OutlinedCard(
+    Card(
         onClick = onCardClick,
         modifier = modifier
             .fillMaxWidth()

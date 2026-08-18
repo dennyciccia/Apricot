@@ -16,7 +16,9 @@ interface RecipeApiService {
         @Query("cuisine") cuisine: String?,
         @Query("intolerances") intolerances: String?,
         @Query("maxReadyTime") maxReadyTime: String?,
-        @Query("number") number: String?
+        @Query("number") number: String?,
+        @Query("addRecipeInformation") addRecipeInformation: Boolean?,
+        @Query("fillIngredients") fillIngredients: Boolean?
     ): ComplexSearchResponse
 
     @GET("recipes/{id}/information")
