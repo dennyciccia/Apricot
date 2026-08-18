@@ -63,4 +63,6 @@
     <string name="food_specific_ml_model_summary">Use food specific ML model for ingredient recognition</string>
     <string name="recipe_card_image_content_description">Image of %1$s</string>
     <string name="X_frac_Y_ingredients">%1$d/%2$d ingredients</string>
+    <string name="recipe_removed_from_favourites">Recipe removed from favourites</string>
+    <string name="undo">Undo</string>
 </resources>
