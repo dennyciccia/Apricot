@@ -116,11 +116,11 @@ fun FavouritesScreen(
             )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { paddingValues ->
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(innerPadding)
         ) {
             if (favouriteRecipes.isEmpty()) {
                 Text(
