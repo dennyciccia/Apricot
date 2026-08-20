@@ -106,9 +106,12 @@ class MainActivity : AppCompatActivity() {
                 )
             },
             floatingActionButton = {
-                IngredientScannerFAB(modifier = Modifier) {
-                    // TODO: chiama funzione per scannerizzare e manda richiesta http con quell'ingrediente e i filtri di default, invece se è nella schermata del form aggiunge l'ingrediente alla lista
-                    Toast.makeText(this, "Pressed", Toast.LENGTH_SHORT).show()
+                val screensWithIngredientScannerFAB = listOf(R.id.homeFragment, R.id.searchFormFragment)
+                if (currentDestinationId in screensWithIngredientScannerFAB) {
+                    IngredientScannerFAB(modifier = Modifier) {
+                        // TODO: chiama funzione per scannerizzare e manda richiesta http con quell'ingrediente e i filtri di default, invece se è nella schermata del form aggiunge l'ingrediente alla lista
+                        Toast.makeText(this, "Pressed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             },
         ) { innerPadding ->
