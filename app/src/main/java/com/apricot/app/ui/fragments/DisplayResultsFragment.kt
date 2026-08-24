@@ -130,7 +130,7 @@ fun DisplayResultsScreen(
                             imageUrl = recipe.imageUrl,
                             availableIngredients = recipe.usedIngredientCount,
                             totalIngredients = (recipe.usedIngredientCount ?: 0) + (recipe.missedIngredientCount ?: 0),
-                            prepTime = recipe.readyInMinutes?.let { "$it min" },
+                            prepTime = recipe.readyInMinutes?.let { stringResource(R.string.preparation_time_label, it) },
                             isFavorite = recipe.isFavourite,
                             onCardClick = { onRecipeClick(recipe) },
                             onFavoriteClick = { onToggleFavorite(recipe) }

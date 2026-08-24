@@ -13,8 +13,10 @@ import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.apricot.app.R
 
 import com.apricot.app.ui.theme.AppTheme
 
@@ -34,7 +36,7 @@ fun IngredientScannerFAB(
     ) {
         Icon(
             imageVector = Icons.Default.PhotoCamera,
-            contentDescription = "Scansiona ingredienti"
+            contentDescription = stringResource(R.string.content_description_scanner_fab)
         )
     }
 }
