@@ -43,7 +43,7 @@
     <string name="search_results">Search results</string>
     <string name="favourite_recipes">Favourite recipes</string>
     <string name="no_results">No results</string>
-    <string name="sustainable">This recipe is sustainable 🌿</string>
+    <string name="sustainable_label">Sustainable</string>
     <string name="ready_in_text">Ready in: %1$d min</string>
     <string name="suitable_for_diets_text">Suitable for %1$s diets</string>
     <string name="price_per_serving_text">Price per serving: €%1$s</string>
@@ -51,7 +51,7 @@
     <string name="recipe_types_text">Recipe types: %1$s</string>
     <string name="recipe_classified_as_text">Recipe classified as: %1$s</string>
     <string name="image_view_recipe_detail_content_description">Recipe image</string>
-    <string name="icon_favourite_content_description">Favourite icon</string>
+    <string name="icon_favourite_content_description">Favourite</string>
     <string name="reset">Reset</string>
     <string name="camera">Camera</string>
     <string name="detected_ingredient">Detected ingredient</string>
@@ -65,4 +65,13 @@
     <string name="X_frac_Y_ingredients">%1$d/%2$d ingredients</string>
     <string name="recipe_removed_from_favourites">Recipe removed from favourites</string>
     <string name="undo">Undo</string>
+    <string name="show_recipe_instructions">Show recipe instructions</string>
+    <string name="content_description_scanner_fab">Scan ingredient</string>
+    <string name="content_description_recipe_instructions_fab">Show recipe instructions</string>
+    <string name="cuisines_list">Cuisine: %1$s</string>
+    <string name="dot_spacer">●</string>
+    <string name="preparation_time_label">%1$d min</string>
+    <string name="gluten_free_label">Gluten free</string>
+    <string name="vegan_label">Vegan</string>
+    <string name="vegetarian_label">Vegetarian</string>
 </resources>

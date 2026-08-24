@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/sustainable"
+            android:text="@string/sustainable_label"
             android:visibility="gone"
             android:gravity="center"
             android:textSize="18sp"
