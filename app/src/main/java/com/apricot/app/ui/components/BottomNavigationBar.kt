@@ -28,7 +28,7 @@ fun BottomNavigationBar(
 ) {
     val items = listOf(
         NavigationItem(R.id.homeFragment, stringResource(R.string.home), Icons.Default.Home),
-        NavigationItem(R.id.searchFormFragment, stringResource(R.string.search), Icons.Default.Search),
+        NavigationItem(R.id.searchFormFragment, stringResource(R.string.search_label), Icons.Default.Search),
         NavigationItem(R.id.favouritesFragment, stringResource(R.string.favourites), Icons.Default.Favorite),
         NavigationItem(R.id.settingsFragment, stringResource(R.string.settings), Icons.Default.Settings)
     )

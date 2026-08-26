@@ -224,8 +224,6 @@ fun RecipeDetailsScreen(
                 }
             }
 
-            // TODO: favourite button
-
             // Available ingredients
             if (ingredientsPassed)
                 item {
