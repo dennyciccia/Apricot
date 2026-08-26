@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 )
             },
             floatingActionButton = {
-                val screensWithIngredientScannerFAB = listOf(R.id.homeFragment, R.id.searchFormFragment)
+                val screensWithIngredientScannerFAB = listOf(R.id.homeFragment)
                 if (currentDestinationId in screensWithIngredientScannerFAB) {
                     IngredientScannerFAB(modifier = Modifier) {
                         // TODO: chiama funzione per scannerizzare e manda richiesta http con quell'ingrediente e i filtri di default, invece se è nella schermata del form aggiunge l'ingrediente alla lista
