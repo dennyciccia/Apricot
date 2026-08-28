@@ -57,7 +57,7 @@ class RecipeDetailsViewModel(private val repository: RecipeRepository) : ViewMod
     }
 }
 
-// This class instructs Android how to crete my ViewModel
+// This class instructs Android how to create my ViewModel
 class RecipeDetailsViewModelFactory(
     private val repository: RecipeRepository
 ) : ViewModelProvider.Factory {
