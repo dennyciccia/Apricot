@@ -83,4 +83,11 @@
     <string name="diet_section_title">Diet</string>
     <string name="preferences_section_title">Preferences</string>
     <string name="found_ingredient_message">Found: %1$s</string>
+    <string name="ML_model_settings_title">Machine learning model</string>
+    <string name="default_filters_settings_title">Default filters</string>
+    <string name="appearence_settings_title">Appearance</string>
+    <string name="theme_setting_label">Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System</string>
 </resources>

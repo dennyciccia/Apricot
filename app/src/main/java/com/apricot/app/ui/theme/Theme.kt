@@ -12,6 +12,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import com.apricot.app.data.mvvm.AppThemeConfig
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -255,11 +256,17 @@ val unspecified_scheme = ColorFamily(
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeConfig: AppThemeConfig = AppThemeConfig.SYSTEM,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
+  val darkTheme = when (themeConfig) {
+      AppThemeConfig.LIGHT -> false
+      AppThemeConfig.DARK -> true
+      AppThemeConfig.SYSTEM -> isSystemInDarkTheme()
+  }
+
   val colorScheme = when {
       (dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) -> {
           val context = LocalContext.current

@@ -87,6 +87,9 @@ dependencies {
     // Integrazione ViewModel con Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // DataStore Preferences
+    implementation(libs.androidx.datastore.preferences)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

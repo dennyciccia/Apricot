@@ -27,6 +27,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +41,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.apricot.app.R
+import com.apricot.app.data.mvvm.AppThemeConfig
+import com.apricot.app.data.mvvm.UserPreferences
+import com.apricot.app.data.mvvm.UserPreferencesRepository
 import com.apricot.app.ui.components.BottomNavigationBar
 import com.apricot.app.ui.components.IngredientScannerFAB
 import com.apricot.app.ui.theme.AppTheme
@@ -52,9 +56,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
+
+        val repository = UserPreferencesRepository.getInstance(applicationContext)
+
         setContent {
-            AppTheme {
+            val preferences by repository.userPreferencesFlow.collectAsState(initial = UserPreferences())
+
+            AppTheme(themeConfig = preferences.appColorTheme) {
                 MainScreen()
             }
         }
