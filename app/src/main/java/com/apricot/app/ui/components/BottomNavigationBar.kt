@@ -18,39 +18,49 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import com.apricot.app.R
 import com.apricot.app.data.mvvm.AppThemeConfig
+import com.apricot.app.ui.fragments.SettingsScreen
+import com.apricot.app.ui.navigation.FavouritesRoute
+import com.apricot.app.ui.navigation.HomeRoute
+import com.apricot.app.ui.navigation.SearchFormRoute
+import com.apricot.app.ui.navigation.SettingsRoute
 import com.apricot.app.ui.theme.AppTheme
+import kotlin.reflect.KClass
+
+private data class NavigationItem<T : Any>(
+    val route: T,
+    val routeClass: KClass<T>,
+    val label: String,
+    val icon: ImageVector
+)
 
 @Composable
 fun BottomNavigationBar(
-    currentDestinationId: Int,
-    onNavigate: (Int) -> Unit
+    currentDestination: NavDestination?,
+    onNavigate: (Any) -> Unit
 ) {
     val items = listOf(
-        NavigationItem(R.id.homeFragment, stringResource(R.string.home), Icons.Default.Home),
-        NavigationItem(R.id.searchFormFragment, stringResource(R.string.search_label), Icons.Default.Search),
-        NavigationItem(R.id.favouritesFragment, stringResource(R.string.favourites), Icons.Default.Favorite),
-        NavigationItem(R.id.settingsFragment, stringResource(R.string.settings), Icons.Default.Settings)
+        NavigationItem(HomeRoute, HomeRoute::class, stringResource(R.string.home), Icons.Default.Home),
+        NavigationItem(SearchFormRoute, SearchFormRoute::class, stringResource(R.string.search_label), Icons.Default.Search),
+        NavigationItem(FavouritesRoute, FavouritesRoute::class, stringResource(R.string.favourites), Icons.Default.Favorite),
+        NavigationItem(SettingsRoute, SettingsRoute::class, stringResource(R.string.settings), Icons.Default.Settings)
     )
 
     NavigationBar {
         items.forEach { item ->
+            val isSelected = currentDestination?.hasRoute(item.routeClass) == true
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(item.label) },
-                selected = currentDestinationId == item.destinationId,
-                onClick = { onNavigate(item.destinationId) }
+                selected = isSelected,
+                onClick = { onNavigate(item.route) }
             )
         }
     }
 }
-
-private data class NavigationItem(
-    val destinationId: Int,
-    val label: String,
-    val icon: ImageVector
-)
 
 @Preview(showBackground = true)
 @Composable
@@ -58,22 +68,7 @@ fun BottomNavigationBarPreview() {
     AppTheme(themeConfig = AppThemeConfig.LIGHT) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             BottomNavigationBar(
-                currentDestinationId = R.id.homeFragment,
-                onNavigate = {}
-            )
-
-            BottomNavigationBar(
-                currentDestinationId = R.id.searchFormFragment,
-                onNavigate = {}
-            )
-
-            BottomNavigationBar(
-                currentDestinationId = R.id.favouritesFragment,
-                onNavigate = {}
-            )
-
-            BottomNavigationBar(
-                currentDestinationId = R.id.settingsFragment,
+                currentDestination = null,
                 onNavigate = {}
             )
         }

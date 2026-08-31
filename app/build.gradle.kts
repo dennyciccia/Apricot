@@ -12,6 +12,7 @@ buildscript {
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.legacy.kapt)
+    alias(libs.plugins.kotlin.serialization)
     id("androidx.navigation.safeargs.kotlin")
     id("org.jetbrains.kotlin.plugin.compose")
 }
@@ -83,6 +84,7 @@ dependencies {
 
     // Navigation (per passare da una schermata all'altra in Compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
     // Integrazione ViewModel con Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)

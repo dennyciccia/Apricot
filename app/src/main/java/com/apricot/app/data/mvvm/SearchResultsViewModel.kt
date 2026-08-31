@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class DisplayResultsViewModel (private val repository: RecipeRepository) : ViewModel() {
+class SearchResultsViewModel (private val repository: RecipeRepository) : ViewModel() {
     private val _recipesList = MutableStateFlow<List<Recipe>>(emptyList())
     val recipesList: StateFlow<List<Recipe>> = _recipesList
     private var isLoaded = false
@@ -58,8 +58,8 @@ class DisplayResultsViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         // Check if Android is requesting the DisplayResultsViewModel
-        if (modelClass.isAssignableFrom(DisplayResultsViewModel::class.java)) {
-            return DisplayResultsViewModel(repository) as T
+        if (modelClass.isAssignableFrom(SearchResultsViewModel::class.java)) {
+            return SearchResultsViewModel(repository) as T
         }
         // If it requests another ViewModel throw an exception
         throw IllegalArgumentException("Unknown ViewModel class")

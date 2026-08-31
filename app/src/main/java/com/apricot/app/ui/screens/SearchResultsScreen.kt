@@ -1,90 +1,40 @@
-package com.apricot.app.ui.fragments
+package com.apricot.app.ui.screens
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.apricot.app.R
-import com.apricot.app.data.database.AppDatabase
-import com.apricot.app.data.mvvm.SearchResultsViewModel
-import com.apricot.app.data.mvvm.DisplayResultsViewModelFactory
-import com.apricot.app.data.mvvm.RecipeRepository
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.apricot.app.R
 import com.apricot.app.data.model.Recipe
-import com.apricot.app.data.network.RetrofitInstance
+import com.apricot.app.data.mvvm.SearchResultsViewModel
 import com.apricot.app.ui.components.CompactRecipeCard
-import com.apricot.app.ui.theme.AppTheme
-
-class  DisplayResultsFragment : Fragment() {
-    private val args: DisplayResultsFragmentArgs by navArgs()
-    private val viewModel: SearchResultsViewModel by viewModels {
-        val api = RetrofitInstance.api
-        val dao = AppDatabase.getDatabase(requireContext()).favouriteDao()
-        val repository = RecipeRepository(api, dao)
-        // Return the Factory with the Repository just created
-        DisplayResultsViewModelFactory(repository)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            // Dispose of the Composition when the view's LifecycleOwner is destroyed
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                AppTheme {
-                    val onRecipeClick = remember {
-                        { recipe: Recipe ->
-                            val action = DisplayResultsFragmentDirections
-                                .actionDisplayResultsFragmentToRecipeDetailsFragment(recipe.id, true)
-                            findNavController().navigate(action)
-                        }
-                    }
-
-                    DisplayResultsScreen(
-                        viewModel = viewModel,
-                        onRecipeClick = onRecipeClick
-                    )
-                }
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // Load Recipes (search with GET API)
-        viewModel.loadRecipesIfNeeded(args)
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisplayResultsScreen(
+fun SearchResultsScreen(
     viewModel: SearchResultsViewModel,
     onRecipeClick: (Recipe) -> Unit
 ) {
     val recipesList by viewModel.recipesList.collectAsState()
-    
+
     val onToggleFavorite = remember(viewModel) {
         { recipe: Recipe -> viewModel.toggleFavorite(recipe) }
     }

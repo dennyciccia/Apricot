@@ -1,102 +1,50 @@
-package com.apricot.app.ui.fragments
+package com.apricot.app.ui.screens
 
-import android.graphics.Bitmap
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
-import com.apricot.app.R
-import com.apricot.app.data.ml.PhotoClassifier
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.apricot.app.R
 import com.apricot.app.ui.components.DiscreteSlider
 import com.apricot.app.ui.components.IngredientsInput
 import com.apricot.app.ui.components.MultiSelectExposedDropdown
 import com.apricot.app.ui.icons.avocado_bean
 import com.apricot.app.ui.icons.temp_preferences_eco
 import com.apricot.app.ui.icons.wheat
-import com.apricot.app.ui.theme.AppTheme
-
-class SearchFormFragment : Fragment() {
-    private lateinit var photoClassifier: PhotoClassifier
-    private val detectedResult = mutableStateOf<String?>(null)
-    private var showNoResultDialog = mutableStateOf(false)
-
-    private val takePictureLauncher = registerForActivityResult(
-        ActivityResultContracts.TakePicturePreview()
-    ) { bitmap: Bitmap? ->
-        if (bitmap != null) {
-            val result = photoClassifier.classify(bitmap)
-            if (result != null) {
-                detectedResult.value = result
-            } else {
-                showNoResultDialog.value = true
-            }
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                AppTheme {
-                    val detectedIngredient by detectedResult
-                    val showNoResult by showNoResultDialog
-                    
-                    SearchFormScreen(
-                        detectedIngredientFromCamera = detectedIngredient,
-                        showNoResultDialog = showNoResult,
-                        onConfirmDetectedIngredient = {
-                            detectedResult.value = null
-                        },
-                        onDismissDetectedIngredient = {
-                            detectedResult.value = null
-                        },
-                        onDismissNoResultDialog = {
-                            showNoResultDialog.value = false
-                        },
-                        onCameraClick = {
-                            takePictureLauncher.launch(null)
-                        },
-                        onSubmit = { ingredients, query, types, glutenFree, vegan, vegetarian, intolerances, cuisines, maxTime, limit ->
-                        }
-                    )
-                }
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
-        val useFoodSpecificModel = sharedPreferences.getBoolean(resources.getString(R.string.food_specific_ml_model_key), false)
-        photoClassifier = PhotoClassifier(requireContext(), useFoodSpecificModel)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        photoClassifier.close()
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
