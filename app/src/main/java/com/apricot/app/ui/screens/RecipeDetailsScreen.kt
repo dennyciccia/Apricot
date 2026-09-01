@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -67,9 +68,10 @@ fun RecipeDetailsScreen(
         floatingActionButtonPosition = FabPosition.Center,
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = innerPadding.calculateBottomPadding())
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                bottom = innerPadding.calculateBottomPadding() + 50.dp
+            )
         ) {
             // Hero image
             item {
