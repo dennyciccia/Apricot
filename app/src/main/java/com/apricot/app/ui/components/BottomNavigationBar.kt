@@ -22,7 +22,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.apricot.app.R
 import com.apricot.app.data.mvvm.AppThemeConfig
-import com.apricot.app.ui.fragments.SettingsScreen
 import com.apricot.app.ui.navigation.FavouritesRoute
 import com.apricot.app.ui.navigation.HomeRoute
 import com.apricot.app.ui.navigation.SearchFormRoute
