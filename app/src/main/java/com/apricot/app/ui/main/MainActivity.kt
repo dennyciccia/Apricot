@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
@@ -126,12 +124,40 @@ class MainActivity : ComponentActivity() {
                 BottomNavigationBar(
                     currentDestination = currentDestination,
                     onNavigate = { route ->
-                        navController.navigate(route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
+                        val isCurrentTabFlow = when (route) {
+                            is FavouritesRoute -> {
+                                currentDestination?.hasRoute<FavouritesRoute>() == true ||
+                                (currentDestination?.hasRoute<RecipeDetailsRoute>() == true &&
+                                 navController.previousBackStackEntry?.destination?.hasRoute<FavouritesRoute>() == true)
                             }
-                            launchSingleTop = true
-                            restoreState = true
+                            is SearchFormRoute -> {
+                                currentDestination?.hasRoute<SearchFormRoute>() == true ||
+                                currentDestination?.hasRoute<SearchResultsRoute>() == true ||
+                                (currentDestination?.hasRoute<RecipeDetailsRoute>() == true &&
+                                 navController.previousBackStackEntry?.destination?.hasRoute<SearchResultsRoute>() == true)
+                            }
+                            is HomeRoute -> {
+                                currentDestination?.hasRoute<HomeRoute>() == true
+                            }
+                            is SettingsRoute -> {
+                                currentDestination?.hasRoute<SettingsRoute>() == true
+                            }
+                            else -> false
+                        }
+
+                        if (isCurrentTabFlow) {
+                            navController.popBackStack(
+                                route = route,
+                                inclusive = false
+                            )
+                        } else {
+                            navController.navigate(route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
                     }
                 )
