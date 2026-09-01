@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.apricot.app.R
+import com.apricot.app.ui.theme.AppTheme
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
@@ -24,5 +26,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(0.8f),
             contentScale = ContentScale.Fit
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomeScreenPreview() {
+    AppTheme {
+        HomeScreen()
     }
 }

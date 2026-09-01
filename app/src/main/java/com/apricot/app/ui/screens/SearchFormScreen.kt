@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apricot.app.R
 import com.apricot.app.data.model.SearchParams
@@ -48,6 +49,7 @@ import com.apricot.app.ui.components.MultiSelectExposedDropdown
 import com.apricot.app.ui.icons.avocado_bean
 import com.apricot.app.ui.icons.temp_preferences_eco
 import com.apricot.app.ui.icons.wheat
+import com.apricot.app.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -369,5 +371,21 @@ fun SearchFormScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchFormScreenPreview() {
+    AppTheme {
+        SearchFormScreen(
+            detectedIngredientFromCamera = null,
+            showNoResultDialog = false,
+            onConfirmDetectedIngredient = {},
+            onDismissDetectedIngredient = {},
+            onDismissNoResultDialog = {},
+            onCameraClick = {},
+            onSubmit = {}
+        )
     }
 }

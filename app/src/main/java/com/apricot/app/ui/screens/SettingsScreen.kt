@@ -22,17 +22,48 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apricot.app.R
+import com.apricot.app.data.mvvm.AppThemeConfig
 import com.apricot.app.data.mvvm.SettingsViewModel
+import com.apricot.app.data.mvvm.UserPreferences
 import com.apricot.app.ui.components.MultiSelectExposedDropdown
 import com.apricot.app.ui.components.SettingSwitchItem
 import com.apricot.app.ui.components.ThemeSelectionDropdown
+import com.apricot.app.ui.theme.AppTheme
 
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel) {
     val preferences by viewModel.userPreferences.collectAsState()
 
+    SettingsContent(
+        preferences = preferences,
+        onUseFoodSpecificMlModelChange = viewModel::updateUseFoodSpecificMlModel,
+        onGlutenFreeOnlyChange = viewModel::updateGlutenFreeOnly,
+        onVegetarianOnlyChange = viewModel::updateVegetarianOnly,
+        onVeganOnlyChange = viewModel::updateVeganOnly,
+        onIntolerancesChange = viewModel::updateIntolerances,
+        onCuisinesChange = viewModel::updateCuisines,
+        onMaxReadyTimeChange = viewModel::updateMaxReadyTime,
+        onResultsLimitChange = viewModel::updateResultsLimit,
+        onAppColorThemeChange = viewModel::updateAppColorTheme
+    )
+}
+
+@Composable
+fun SettingsContent(
+    preferences: UserPreferences,
+    onUseFoodSpecificMlModelChange: (Boolean) -> Unit,
+    onGlutenFreeOnlyChange: (Boolean) -> Unit,
+    onVegetarianOnlyChange: (Boolean) -> Unit,
+    onVeganOnlyChange: (Boolean) -> Unit,
+    onIntolerancesChange: (Set<String>) -> Unit,
+    onCuisinesChange: (Set<String>) -> Unit,
+    onMaxReadyTimeChange: (Int?) -> Unit,
+    onResultsLimitChange: (Int?) -> Unit,
+    onAppColorThemeChange: (AppThemeConfig) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +81,7 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             title = stringResource(R.string.food_specific_ml_model),
             summary = stringResource(R.string.food_specific_ml_model_summary),
             checked = preferences.useFoodSpecificMlModel,
-            onCheckedChange = { viewModel.updateUseFoodSpecificMlModel(it) }
+            onCheckedChange = onUseFoodSpecificMlModelChange
         )
 
         HorizontalDivider()
@@ -65,28 +96,28 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             title = stringResource(R.string.gluten_free_only),
             summary = stringResource(R.string.gluten_free_only_summary),
             checked = preferences.glutenFreeOnly,
-            onCheckedChange = { viewModel.updateGlutenFreeOnly(it) }
+            onCheckedChange = onGlutenFreeOnlyChange
         )
 
         SettingSwitchItem(
             title = stringResource(R.string.vegetarian_only),
             summary = stringResource(R.string.vegetarian_only_summary),
             checked = preferences.vegetarianOnly,
-            onCheckedChange = { viewModel.updateVegetarianOnly(it) }
+            onCheckedChange = onVegetarianOnlyChange
         )
 
         SettingSwitchItem(
             title = stringResource(R.string.vegan_only),
             summary = stringResource(R.string.vegan_only_summary),
             checked = preferences.veganOnly,
-            onCheckedChange = { viewModel.updateVeganOnly(it) }
+            onCheckedChange = onVeganOnlyChange
         )
 
         MultiSelectExposedDropdown(
             label = stringResource(R.string.intolerances),
             options = stringArrayResource(R.array.intolerances_labels).toList(),
             selectedOptions = preferences.intolerances,
-            onSelectionChange = { viewModel.updateIntolerances(it) },
+            onSelectionChange = onIntolerancesChange,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -94,7 +125,7 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             label = stringResource(R.string.cuisines),
             options = stringArrayResource(R.array.cuisines_labels).toList(),
             selectedOptions = preferences.cuisines,
-            onSelectionChange = { viewModel.updateCuisines(it) },
+            onSelectionChange = onCuisinesChange,
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -102,9 +133,9 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             value = preferences.maxReadyTime?.toString() ?: "",
             onValueChange = {
                 if (it.isEmpty()) {
-                    viewModel.updateMaxReadyTime(null)
+                    onMaxReadyTimeChange(null)
                 } else {
-                    it.toIntOrNull()?.let { time -> viewModel.updateMaxReadyTime(time) }
+                    it.toIntOrNull()?.let { time -> onMaxReadyTimeChange(time) }
                 }
             },
             label = { Text(stringResource(R.string.max_preparation_time_label)) },
@@ -117,9 +148,9 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
             value = preferences.resultsLimit?.toString() ?: "",
             onValueChange = {
                 if (it.isEmpty()) {
-                    viewModel.updateResultsLimit(null)
+                    onResultsLimitChange(null)
                 } else {
-                    it.toIntOrNull()?.let { limit -> viewModel.updateResultsLimit(limit) }
+                    it.toIntOrNull()?.let { limit -> onResultsLimitChange(limit) }
                 }
             },
             label = { Text(stringResource(R.string.results_limit_label)) },
@@ -138,9 +169,28 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
 
         ThemeSelectionDropdown(
             selectedTheme = preferences.appColorTheme,
-            onThemeChange = { viewModel.updateAppColorTheme(it) }
+            onThemeChange = onAppColorThemeChange
         )
 
         Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SettingsScreenPreview() {
+    AppTheme {
+        SettingsContent(
+            preferences = UserPreferences(),
+            onUseFoodSpecificMlModelChange = {},
+            onGlutenFreeOnlyChange = {},
+            onVegetarianOnlyChange = {},
+            onVeganOnlyChange = {},
+            onIntolerancesChange = {},
+            onCuisinesChange = {},
+            onMaxReadyTimeChange = {},
+            onResultsLimitChange = {},
+            onAppColorThemeChange = {}
+        )
     }
 }

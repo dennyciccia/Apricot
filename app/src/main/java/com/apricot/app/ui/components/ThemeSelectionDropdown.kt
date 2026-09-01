@@ -14,8 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.apricot.app.R
 import com.apricot.app.data.mvvm.AppThemeConfig
+import com.apricot.app.ui.theme.AppTheme
 
 
 /**
@@ -65,5 +67,16 @@ fun ThemeSelectionDropdown(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ThemeSelectionDropdownPreview() {
+    AppTheme {
+        ThemeSelectionDropdown(
+            selectedTheme = AppThemeConfig.SYSTEM,
+            onThemeChange = {}
+        )
     }
 }

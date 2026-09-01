@@ -1,6 +1,5 @@
 package com.apricot.app.ui.components
 
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -9,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.apricot.app.R
 import com.apricot.app.ui.icons.book_2
+import com.apricot.app.ui.theme.AppTheme
 
 /**
  * An Extended FAB to open the link to the recipe instructions webpage
@@ -39,4 +40,14 @@ fun RecipeInstructionsExtendedFAB(
         onClick = onClick,
         expanded = true,
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecipeInstructionsExtendedFABPreview() {
+    AppTheme {
+        RecipeInstructionsExtendedFAB(
+            onClick = {}
+        )
+    }
 }

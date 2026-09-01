@@ -25,12 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apricot.app.R
 import com.apricot.app.data.model.Recipe
 import com.apricot.app.data.mvvm.FavouriteRecipesViewModel
 import com.apricot.app.ui.components.CompactRecipeCard
+import com.apricot.app.ui.theme.AppTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,6 +67,22 @@ fun FavouritesScreen(
         { recipe: Recipe -> viewModel.toggleFavorite(recipe) }
     }
 
+    FavouritesContent(
+        favouriteRecipes = favouriteRecipes,
+        snackbarHostState = snackbarHostState,
+        onRecipeClick = onRecipeClick,
+        onToggleFavorite = onToggleFavorite
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FavouritesContent(
+    favouriteRecipes: List<Recipe>,
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    onRecipeClick: (Recipe) -> Unit,
+    onToggleFavorite: (Recipe) -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -114,5 +132,32 @@ fun FavouritesScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FavouritesScreenPreview() {
+    AppTheme {
+        FavouritesContent(
+            favouriteRecipes = listOf(
+                Recipe(
+                    id = 1,
+                    title = "Pasta Carbonara",
+                    imageUrl = "https://example.com/pasta.jpg",
+                    readyInMinutes = 20,
+                    isFavourite = true
+                ),
+                Recipe(
+                    id = 2,
+                    title = "Tiramisù",
+                    imageUrl = "https://example.com/tiramisu.jpg",
+                    readyInMinutes = 30,
+                    isFavourite = true
+                )
+            ),
+            onRecipeClick = {},
+            onToggleFavorite = {}
+        )
     }
 }

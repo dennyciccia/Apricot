@@ -32,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.apricot.app.R
@@ -41,6 +42,7 @@ import com.apricot.app.ui.components.RecipeInstructionsExtendedFAB
 import com.apricot.app.ui.icons.avocado_bean
 import com.apricot.app.ui.icons.temp_preferences_eco
 import com.apricot.app.ui.icons.wheat
+import com.apricot.app.ui.theme.AppTheme
 import kotlin.collections.filter
 import kotlin.collections.joinToString
 import kotlin.collections.orEmpty
@@ -206,5 +208,32 @@ fun RecipeDetailsScreen(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecipeDetailsScreenPreview() {
+    AppTheme {
+        RecipeDetailsScreen(
+            recipe = Recipe(
+                id = 1,
+                title = "Spaghetti alla Carbonara",
+                imageUrl = "https://example.com/carbonara.jpg",
+                readyInMinutes = 20,
+                sourceUrl = "https://example.com",
+                cuisines = listOf("Italian"),
+                glutenFree = false,
+                vegetarian = false,
+                vegan = false,
+                sustainable = true,
+                recipeTypes = listOf("main course"),
+                isFavourite = true,
+                usedIngredientCount = 4,
+                missedIngredientCount = 1
+            ),
+            onFavouriteClick = {},
+            onOpenInstructions = {}
+        )
     }
 }

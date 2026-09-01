@@ -1,5 +1,6 @@
 package com.apricot.app.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apricot.app.data.model.Recipe
+import com.apricot.app.ui.theme.AppTheme
 
 /**
  * A card to show ingredients availability
@@ -62,6 +65,36 @@ fun AvailableIngredientsCard(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AvailableIngredientsCardPreview() {
+    AppTheme {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            AvailableIngredientsCard(
+                recipe = Recipe(
+                    id = 1,
+                    title = "Pasta Carbonara",
+                    imageUrl = "",
+                    usedIngredientCount = 3,
+                    missedIngredientCount = 2
+                )
+            )
+            AvailableIngredientsCard(
+                recipe = Recipe(
+                    id = 2,
+                    title = "Pizza Margherita",
+                    imageUrl = "",
+                    usedIngredientCount = 4,
+                    missedIngredientCount = 0
+                )
+            )
         }
     }
 }
