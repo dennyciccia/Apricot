@@ -13,13 +13,18 @@ import kotlinx.coroutines.launch
 class SearchResultsViewModel (private val repository: RecipeRepository) : ViewModel() {
     private val _recipesList = MutableStateFlow<List<Recipe>>(emptyList())
     val recipesList: StateFlow<List<Recipe>> = _recipesList
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     private var isLoaded = false
 
-    // Called by fragment to load data
+    // Called by screen to load data
     fun loadRecipesIfNeeded(searchArgs: SearchParams) {
         if(isLoaded) return
 
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val recipes = repository.findRecipes(searchArgs)
                 _recipesList.value = recipes
@@ -28,6 +33,8 @@ class SearchResultsViewModel (private val repository: RecipeRepository) : ViewMo
                 e.printStackTrace()
                 _recipesList.value = emptyList()
                 isLoaded = false
+            } finally {
+                _isLoading.value = false
             }
         }
     }

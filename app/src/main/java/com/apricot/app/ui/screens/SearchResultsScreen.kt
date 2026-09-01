@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -57,6 +58,7 @@ fun SearchResultsScreen(
     }
 
     val recipesList by viewModel.recipesList.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     val onToggleFavorite = remember(viewModel) {
         { recipe: Recipe -> viewModel.toggleFavorite(recipe) }
@@ -64,6 +66,7 @@ fun SearchResultsScreen(
 
     SearchResultsContent(
         recipesList = recipesList,
+        isLoading = isLoading,
         onRecipeClick = onRecipeClick,
         onToggleFavorite = onToggleFavorite
     )
@@ -73,6 +76,7 @@ fun SearchResultsScreen(
 @Composable
 fun SearchResultsContent(
     recipesList: List<Recipe>,
+    isLoading: Boolean,
     onRecipeClick: (Recipe) -> Unit,
     onToggleFavorite: (Recipe) -> Unit
 ) {
@@ -94,34 +98,42 @@ fun SearchResultsContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (recipesList.isEmpty()) {
-                Text(
-                    text = stringResource(R.string.no_results),
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontSize = 20.sp,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(
-                        items = recipesList,
-                        key = { it.id },
-                        contentType = { "recipe" }
-                    ) { recipe ->
-                        CompactRecipeCard(
-                            title = recipe.title,
-                            imageUrl = recipe.imageUrl,
-                            availableIngredients = recipe.usedIngredientCount,
-                            totalIngredients = (recipe.usedIngredientCount ?: 0) + (recipe.missedIngredientCount ?: 0),
-                            prepTime = recipe.readyInMinutes?.let { stringResource(R.string.preparation_time_label, it) },
-                            isFavorite = recipe.isFavourite,
-                            onCardClick = { onRecipeClick(recipe) },
-                            onFavoriteClick = { onToggleFavorite(recipe) }
-                        )
+            when {
+                isLoading -> {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                recipesList.isEmpty() -> {
+                    Text(
+                        text = stringResource(R.string.no_results),
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 20.sp,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(
+                            items = recipesList,
+                            key = { it.id },
+                            contentType = { "recipe" }
+                        ) { recipe ->
+                            CompactRecipeCard(
+                                title = recipe.title,
+                                imageUrl = recipe.imageUrl,
+                                availableIngredients = recipe.usedIngredientCount,
+                                totalIngredients = (recipe.usedIngredientCount ?: 0) + (recipe.missedIngredientCount ?: 0),
+                                prepTime = recipe.readyInMinutes?.let { stringResource(R.string.preparation_time_label, it) },
+                                isFavorite = recipe.isFavourite,
+                                onCardClick = { onRecipeClick(recipe) },
+                                onFavoriteClick = { onToggleFavorite(recipe) }
+                            )
+                        }
                     }
                 }
             }
@@ -154,6 +166,7 @@ fun SearchResultsScreenPreview() {
                     isFavourite = false
                 )
             ),
+            isLoading = false,
             onRecipeClick = {},
             onToggleFavorite = {}
         )
