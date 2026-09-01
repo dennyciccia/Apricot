@@ -85,14 +85,14 @@ class MainActivity : ComponentActivity() {
             val preferences by repository.userPreferencesFlow.collectAsState(initial = UserPreferences())
 
             AppTheme(themeConfig = preferences.appColorTheme) {
-                MainScreen()
+                MainScreen(userPreferences = preferences)
             }
         }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun MainScreen() {
+    private fun MainScreen(userPreferences: UserPreferences = UserPreferences()) {
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -187,6 +187,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         SearchFormScreen(
+                            userPreferences = userPreferences,
                             detectedIngredientFromCamera = detectedResult,
                             showNoResultDialog = showNoResultDialog,
                             onConfirmDetectedIngredient = { detectedResult = null },

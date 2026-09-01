@@ -29,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apricot.app.R
+import com.apricot.app.data.mvvm.UserPreferences
 import com.apricot.app.ui.components.DiscreteSlider
 import com.apricot.app.ui.components.IngredientsInput
 import com.apricot.app.ui.components.MultiSelectExposedDropdown
@@ -49,6 +51,7 @@ import com.apricot.app.ui.icons.wheat
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchFormScreen(
+    userPreferences: UserPreferences = UserPreferences(),
     detectedIngredientFromCamera: String?,
     showNoResultDialog: Boolean,
     onConfirmDetectedIngredient: () -> Unit,
@@ -57,30 +60,44 @@ fun SearchFormScreen(
     onCameraClick: () -> Unit,
     onSubmit: (List<String>, String, Set<String>, Boolean, Boolean, Boolean, Set<String>, Set<String>, Int, Int) -> Unit
 ) {
+    // Initialize input fields values on first composition
     var ingredients by remember { mutableStateOf(emptyList<String>()) }
     var query by remember { mutableStateOf("") }
     var selectedTypes by remember { mutableStateOf(emptySet<String>()) }
-    var isGlutenFree by remember { mutableStateOf(false) }
-    var isVegan by remember { mutableStateOf(false) }
-    var isVegetarian by remember { mutableStateOf(false) }
-    var selectedIntolerances by remember { mutableStateOf(emptySet<String>()) }
-    var selectedCuisines by remember { mutableStateOf(emptySet<String>()) }
-    var maxReadyTime by remember { mutableIntStateOf(60) }
-    var resultsLimit by remember { mutableIntStateOf(20) }
+    var isGlutenFree by remember { mutableStateOf(userPreferences.glutenFreeOnly) }
+    var isVegan by remember { mutableStateOf(userPreferences.veganOnly) }
+    var isVegetarian by remember { mutableStateOf(userPreferences.vegetarianOnly) }
+    var selectedIntolerances by remember { mutableStateOf(userPreferences.intolerances) }
+    var selectedCuisines by remember { mutableStateOf(userPreferences.cuisines) }
+    var maxReadyTime by remember { mutableIntStateOf(userPreferences.maxReadyTime ?: 60) }
+    var resultsLimit by remember { mutableIntStateOf(userPreferences.resultsLimit ?: 20) }
 
-    val resetFields = {
-        query = ""
-        ingredients = emptyList()
-        selectedTypes = emptySet()
-        selectedCuisines = emptySet()
-        selectedIntolerances = emptySet()
-        maxReadyTime = 60
-        resultsLimit = 20
-        isGlutenFree = false
-        isVegetarian = false
-        isVegan = false
+    // Update input field values if preferences changes after composition
+    LaunchedEffect(userPreferences) {
+        isGlutenFree = userPreferences.glutenFreeOnly
+        isVegan = userPreferences.veganOnly
+        isVegetarian = userPreferences.vegetarianOnly
+        selectedIntolerances = userPreferences.intolerances
+        selectedCuisines = userPreferences.cuisines
+        maxReadyTime = userPreferences.maxReadyTime ?: 60
+        resultsLimit = userPreferences.resultsLimit ?: 20
     }
 
+    // Called by reset button
+    val resetFields = {
+        ingredients = emptyList()
+        query = ""
+        selectedTypes = emptySet()
+        isGlutenFree = false
+        isVegan = false
+        isVegetarian = false
+        selectedIntolerances = emptySet()
+        selectedCuisines = emptySet()
+        maxReadyTime = 60
+        resultsLimit = 20
+    }
+
+    // Alert dialog with detected ingredient from camera
     if (detectedIngredientFromCamera != null) {
         AlertDialog(
             onDismissRequest = onDismissDetectedIngredient,
@@ -104,6 +121,7 @@ fun SearchFormScreen(
         )
     }
 
+    // Alert dialog with no ingredient found message
     if (showNoResultDialog) {
         AlertDialog(
             onDismissRequest = onDismissNoResultDialog,
@@ -117,6 +135,7 @@ fun SearchFormScreen(
         )
     }
 
+    // Form interface
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -177,7 +196,8 @@ fun SearchFormScreen(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(0.dp)) // Top padding adjustment
+                    // Top padding adjustment
+                    Spacer(modifier = Modifier.height(0.dp))
 
                     // Ingredients input section
                     Text(
@@ -348,7 +368,8 @@ fun SearchFormScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp)) // Bottom padding adjustment
+                    // Bottom padding adjustment
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
