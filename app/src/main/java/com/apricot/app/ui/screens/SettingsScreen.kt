@@ -17,24 +17,37 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.apricot.app.R
 import com.apricot.app.data.mvvm.AppThemeConfig
 import com.apricot.app.data.mvvm.SettingsViewModel
+import com.apricot.app.data.mvvm.SettingsViewModelFactory
 import com.apricot.app.data.mvvm.UserPreferences
+import com.apricot.app.data.mvvm.UserPreferencesRepository
 import com.apricot.app.ui.components.MultiSelectExposedDropdown
 import com.apricot.app.ui.components.SettingSwitchItem
 import com.apricot.app.ui.components.ThemeSelectionDropdown
 import com.apricot.app.ui.theme.AppTheme
 
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel) {
+fun SettingsScreen() {
+    val context = LocalContext.current
+    val viewModel: SettingsViewModel = viewModel(
+        factory = remember(context) {
+            val repository = UserPreferencesRepository.getInstance(context)
+            SettingsViewModelFactory(repository)
+        }
+    )
+
     val preferences by viewModel.userPreferences.collectAsState()
 
     SettingsContent(

@@ -1,5 +1,7 @@
 package com.apricot.app.ui.screens
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -29,6 +31,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -36,11 +39,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.preference.PreferenceManager
 import com.apricot.app.R
+import com.apricot.app.data.ml.PhotoClassifier
 import com.apricot.app.data.model.SearchParams
 import com.apricot.app.data.mvvm.UserPreferences
 import com.apricot.app.ui.components.DiscreteSlider
@@ -51,9 +57,55 @@ import com.apricot.app.ui.icons.temp_preferences_eco
 import com.apricot.app.ui.icons.wheat
 import com.apricot.app.ui.theme.AppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchFormScreen(
+    userPreferences: UserPreferences = UserPreferences(),
+    onSubmit: (SearchParams) -> Unit
+) {
+    val context = LocalContext.current
+    val sharedPreferences = remember(context) { PreferenceManager.getDefaultSharedPreferences(context) }
+    val foodSpecificKey = stringResource(R.string.food_specific_ml_model_key)
+    val useFoodSpecificModel = remember(context, foodSpecificKey) {
+        sharedPreferences.getBoolean(foodSpecificKey, false)
+    }
+    val photoClassifier = remember(context, useFoodSpecificModel) {
+        PhotoClassifier(context, useFoodSpecificModel)
+    }
+    DisposableEffect(photoClassifier) {
+        onDispose { photoClassifier.close() }
+    }
+
+    var detectedResult by remember { mutableStateOf<String?>(null) }
+    var showNoResultDialog by remember { mutableStateOf(false) }
+
+    val takePictureLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap ->
+        if (bitmap != null) {
+            val result = photoClassifier.classify(bitmap)
+            if (result != null) {
+                detectedResult = result
+            } else {
+                showNoResultDialog = true
+            }
+        }
+    }
+
+    SearchFormContent(
+        userPreferences = userPreferences,
+        detectedIngredientFromCamera = detectedResult,
+        showNoResultDialog = showNoResultDialog,
+        onConfirmDetectedIngredient = { detectedResult = null },
+        onDismissDetectedIngredient = { detectedResult = null },
+        onDismissNoResultDialog = { showNoResultDialog = false },
+        onCameraClick = { takePictureLauncher.launch(null) },
+        onSubmit = onSubmit
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchFormContent(
     userPreferences: UserPreferences = UserPreferences(),
     detectedIngredientFromCamera: String?,
     showNoResultDialog: Boolean,
@@ -378,7 +430,7 @@ fun SearchFormScreen(
 @Composable
 fun SearchFormScreenPreview() {
     AppTheme {
-        SearchFormScreen(
+        SearchFormContent(
             detectedIngredientFromCamera = null,
             showNoResultDialog = false,
             onConfirmDetectedIngredient = {},

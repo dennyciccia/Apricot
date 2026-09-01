@@ -26,17 +26,28 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.apricot.app.R
+import com.apricot.app.data.database.AppDatabase
 import com.apricot.app.data.model.Recipe
+import com.apricot.app.data.mvvm.RecipeDetailsViewModel
+import com.apricot.app.data.mvvm.RecipeDetailsViewModelFactory
+import com.apricot.app.data.mvvm.RecipeRepository
+import com.apricot.app.data.network.RetrofitInstance
 import com.apricot.app.ui.components.AvailableIngredientsCard
 import com.apricot.app.ui.components.RecipeInstructionsExtendedFAB
 import com.apricot.app.ui.icons.avocado_bean
@@ -47,9 +58,34 @@ import kotlin.collections.filter
 import kotlin.collections.joinToString
 import kotlin.collections.orEmpty
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeDetailsScreen(
+    initialRecipe: Recipe
+) {
+    val context = LocalContext.current
+    val viewModel: RecipeDetailsViewModel = viewModel(
+        key = initialRecipe.id.toString(),
+        factory = remember(context) {
+            val api = RetrofitInstance.api
+            val dao = AppDatabase.getDatabase(context).favouriteDao()
+            val repository = RecipeRepository(api, dao)
+            RecipeDetailsViewModelFactory(repository, initialRecipe)
+        }
+    )
+
+    val recipeState by viewModel.recipeData.collectAsStateWithLifecycle()
+    val uriHandler = LocalUriHandler.current
+
+    RecipeDetailsContent(
+        recipe = recipeState,
+        onFavouriteClick = { viewModel.toggleFavourite() },
+        onOpenInstructions = { url -> uriHandler.openUri(url) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RecipeDetailsContent(
     recipe: Recipe,
     onFavouriteClick: () -> Unit,
     onOpenInstructions: (String) -> Unit
@@ -215,7 +251,7 @@ fun RecipeDetailsScreen(
 @Composable
 fun RecipeDetailsScreenPreview() {
     AppTheme {
-        RecipeDetailsScreen(
+        RecipeDetailsContent(
             recipe = Recipe(
                 id = 1,
                 title = "Spaghetti alla Carbonara",

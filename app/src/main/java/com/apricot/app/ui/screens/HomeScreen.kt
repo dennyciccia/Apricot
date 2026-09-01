@@ -15,7 +15,12 @@ import com.apricot.app.R
 import com.apricot.app.ui.theme.AppTheme
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen() {
+    HomeContent()
+}
+
+@Composable
+fun HomeContent(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -33,6 +38,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Composable
 fun HomeScreenPreview() {
     AppTheme {
-        HomeScreen()
+        HomeContent()
     }
 }

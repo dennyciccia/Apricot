@@ -13,28 +13,49 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.apricot.app.R
+import com.apricot.app.data.database.AppDatabase
 import com.apricot.app.data.model.Recipe
+import com.apricot.app.data.model.SearchParams
+import com.apricot.app.data.mvvm.DisplayResultsViewModelFactory
+import com.apricot.app.data.mvvm.RecipeRepository
 import com.apricot.app.data.mvvm.SearchResultsViewModel
+import com.apricot.app.data.network.RetrofitInstance
 import com.apricot.app.ui.components.CompactRecipeCard
 import com.apricot.app.ui.theme.AppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchResultsScreen(
-    viewModel: SearchResultsViewModel,
+    searchParams: SearchParams,
     onRecipeClick: (Recipe) -> Unit
 ) {
+    val context = LocalContext.current
+    val viewModel: SearchResultsViewModel = viewModel(
+        factory = remember(context) {
+            val api = RetrofitInstance.api
+            val dao = AppDatabase.getDatabase(context).favouriteDao()
+            val repository = RecipeRepository(api, dao)
+            DisplayResultsViewModelFactory(repository)
+        }
+    )
+
+    LaunchedEffect(searchParams) {
+        viewModel.loadRecipesIfNeeded(searchParams)
+    }
+
     val recipesList by viewModel.recipesList.collectAsState()
 
     val onToggleFavorite = remember(viewModel) {

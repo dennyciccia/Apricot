@@ -3,10 +3,8 @@ package com.apricot.app.ui.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,21 +15,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -39,40 +29,27 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import androidx.preference.PreferenceManager
 import com.apricot.app.R
-import com.apricot.app.data.database.AppDatabase
-import com.apricot.app.data.ml.PhotoClassifier
 import com.apricot.app.data.model.Recipe
-import com.apricot.app.data.mvvm.SearchResultsViewModel
-import com.apricot.app.data.mvvm.DisplayResultsViewModelFactory
-import com.apricot.app.data.mvvm.FavouriteRecipesViewModel
-import com.apricot.app.data.mvvm.FavouriteRecipesViewModelFactory
-import com.apricot.app.data.mvvm.RecipeDetailsViewModel
-import com.apricot.app.data.mvvm.RecipeDetailsViewModelFactory
-import com.apricot.app.data.mvvm.RecipeRepository
-import com.apricot.app.data.mvvm.SettingsViewModel
-import com.apricot.app.data.mvvm.SettingsViewModelFactory
+import com.apricot.app.data.model.SearchParams
 import com.apricot.app.data.mvvm.UserPreferences
 import com.apricot.app.data.mvvm.UserPreferencesRepository
-import com.apricot.app.data.network.RetrofitInstance
 import com.apricot.app.ui.components.BottomNavigationBar
 import com.apricot.app.ui.components.IngredientScannerFAB
-import com.apricot.app.ui.screens.HomeScreen
-import com.apricot.app.ui.screens.SearchResultsScreen
-import com.apricot.app.ui.screens.FavouritesScreen
-import com.apricot.app.ui.screens.RecipeDetailsScreen
-import com.apricot.app.ui.screens.SearchFormScreen
-import com.apricot.app.ui.screens.SettingsScreen
-import com.apricot.app.data.model.SearchParams
-import com.apricot.app.ui.navigation.SearchParamsNavType
-import com.apricot.app.ui.navigation.HomeRoute
-import com.apricot.app.ui.navigation.SearchFormRoute
-import com.apricot.app.ui.navigation.SearchResultsRoute
 import com.apricot.app.ui.navigation.FavouritesRoute
+import com.apricot.app.ui.navigation.HomeRoute
 import com.apricot.app.ui.navigation.RecipeDetailsRoute
 import com.apricot.app.ui.navigation.RecipeNavType
+import com.apricot.app.ui.navigation.SearchFormRoute
+import com.apricot.app.ui.navigation.SearchParamsNavType
+import com.apricot.app.ui.navigation.SearchResultsRoute
 import com.apricot.app.ui.navigation.SettingsRoute
+import com.apricot.app.ui.screens.FavouritesScreen
+import com.apricot.app.ui.screens.HomeScreen
+import com.apricot.app.ui.screens.RecipeDetailsScreen
+import com.apricot.app.ui.screens.SearchFormScreen
+import com.apricot.app.ui.screens.SearchResultsScreen
+import com.apricot.app.ui.screens.SettingsScreen
 import com.apricot.app.ui.theme.AppTheme
 import kotlin.reflect.typeOf
 
@@ -190,43 +167,8 @@ fun MainScreen(userPreferences: UserPreferences = UserPreferences()) {
                 }
 
                 composable<SearchFormRoute> {
-                    val context = LocalContext.current
-                    val sharedPreferences = remember(context) { PreferenceManager.getDefaultSharedPreferences(context) }
-                    val foodSpecificKey = stringResource(R.string.food_specific_ml_model_key)
-                    val useFoodSpecificModel = remember(context, foodSpecificKey) {
-                        sharedPreferences.getBoolean(foodSpecificKey, false)
-                    }
-                    val photoClassifier = remember(context, useFoodSpecificModel) {
-                        PhotoClassifier(context, useFoodSpecificModel)
-                    }
-                    DisposableEffect(photoClassifier) {
-                        onDispose { photoClassifier.close() }
-                    }
-
-                    var detectedResult by remember { mutableStateOf<String?>(null) }
-                    var showNoResultDialog by remember { mutableStateOf(false) }
-
-                    val takePictureLauncher = rememberLauncherForActivityResult(
-                        ActivityResultContracts.TakePicturePreview()
-                    ) { bitmap ->
-                        if (bitmap != null) {
-                            val result = photoClassifier.classify(bitmap)
-                            if (result != null) {
-                                detectedResult = result
-                            } else {
-                                showNoResultDialog = true
-                            }
-                        }
-                    }
-
                     SearchFormScreen(
                         userPreferences = userPreferences,
-                        detectedIngredientFromCamera = detectedResult,
-                        showNoResultDialog = showNoResultDialog,
-                        onConfirmDetectedIngredient = { detectedResult = null },
-                        onDismissDetectedIngredient = { detectedResult = null },
-                        onDismissNoResultDialog = { showNoResultDialog = false },
-                        onCameraClick = { takePictureLauncher.launch(null) },
                         onSubmit = { params ->
                             val route = SearchResultsRoute(params)
                             navController.navigate(route)
@@ -238,22 +180,8 @@ fun MainScreen(userPreferences: UserPreferences = UserPreferences()) {
                     typeMap = mapOf(typeOf<SearchParams>() to SearchParamsNavType)
                 ) { backStackEntry ->
                     val route: SearchResultsRoute = backStackEntry.toRoute()
-                    val context = LocalContext.current
-                    val viewModel: SearchResultsViewModel = viewModel(
-                        factory = remember(context) {
-                            val api = RetrofitInstance.api
-                            val dao = AppDatabase.getDatabase(context).favouriteDao()
-                            val repository = RecipeRepository(api, dao)
-                            DisplayResultsViewModelFactory(repository)
-                        }
-                    )
-
-                    LaunchedEffect(route) {
-                        viewModel.loadRecipesIfNeeded(route.searchParams)
-                    }
-
                     SearchResultsScreen(
-                        viewModel = viewModel,
+                        searchParams = route.searchParams,
                         onRecipeClick = { recipe ->
                             navController.navigate(
                                 route = RecipeDetailsRoute(recipe = recipe)
@@ -266,40 +194,13 @@ fun MainScreen(userPreferences: UserPreferences = UserPreferences()) {
                     typeMap = mapOf(typeOf<Recipe>() to RecipeNavType)
                 ) { backStackEntry ->
                     val route: RecipeDetailsRoute = backStackEntry.toRoute()
-                    val context = LocalContext.current
-                    val viewModel: RecipeDetailsViewModel = viewModel(
-                        key = route.recipe.id.toString(),
-                        factory = remember(context) {
-                            val api = RetrofitInstance.api
-                            val dao = AppDatabase.getDatabase(context).favouriteDao()
-                            val repository = RecipeRepository(api, dao)
-                            RecipeDetailsViewModelFactory(repository, route.recipe)
-                        }
-                    )
-
-                    val recipeState by viewModel.recipeData.collectAsStateWithLifecycle()
-
-                    val uriHandler = LocalUriHandler.current
                     RecipeDetailsScreen(
-                        recipe = recipeState,
-                        onFavouriteClick = { viewModel.toggleFavourite() },
-                        onOpenInstructions = { url -> uriHandler.openUri(url) }
+                        initialRecipe = route.recipe
                     )
                 }
 
                 composable<FavouritesRoute> {
-                    val context = LocalContext.current
-                    val viewModel: FavouriteRecipesViewModel = viewModel(
-                        factory = remember(context) {
-                            val api = RetrofitInstance.api
-                            val dao = AppDatabase.getDatabase(context).favouriteDao()
-                            val repository = RecipeRepository(api, dao)
-                            FavouriteRecipesViewModelFactory(repository)
-                        }
-                    )
-
                     FavouritesScreen(
-                        viewModel = viewModel,
                         onRecipeClick = { recipe ->
                             navController.navigate(
                                 route = RecipeDetailsRoute(recipe = recipe)
@@ -309,15 +210,7 @@ fun MainScreen(userPreferences: UserPreferences = UserPreferences()) {
                 }
 
                 composable<SettingsRoute> {
-                    val context = LocalContext.current
-                    val viewModel: SettingsViewModel = viewModel(
-                        factory = remember(context) {
-                            val repository = UserPreferencesRepository.getInstance(context)
-                            SettingsViewModelFactory(repository)
-                        }
-                    )
-
-                    SettingsScreen(viewModel = viewModel)
+                    SettingsScreen()
                 }
             }
         }
