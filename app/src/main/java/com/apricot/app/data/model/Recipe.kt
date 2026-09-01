@@ -1,8 +1,10 @@
 package com.apricot.app.data.model
 
 import androidx.compose.runtime.Immutable
+import kotlinx.serialization.Serializable
 
 @Immutable
+@Serializable
 data class Recipe(
     val id: Int,
     val title: String,

@@ -82,8 +82,9 @@ class RecipeDetailsFragment : Fragment() {
         val api = RetrofitInstance.api
         val dao = AppDatabase.getDatabase(requireContext()).favouriteDao()
         val repository = RecipeRepository(api, dao)
+        val dummyRecipe = Recipe(id = 0, title = "", imageUrl = "")
         // Return the Factory with the Repository just created
-        RecipeDetailsViewModelFactory(repository)
+        RecipeDetailsViewModelFactory(repository, dummyRecipe)
     }
 
     override fun onCreateView(
@@ -96,27 +97,18 @@ class RecipeDetailsFragment : Fragment() {
             setContent {
                 AppTheme {
                     // Load and observe recipe data from viewModel
-                    LaunchedEffect(args.recipeID, args.dataFromNetwork) {
+                    /*LaunchedEffect(args.recipeID, args.dataFromNetwork) {
                         viewModel.loadRecipe(args.recipeID, args.dataFromNetwork)
-                    }
+                    }*/
                     val recipeState by viewModel.recipeData.collectAsStateWithLifecycle()
 
-                    // Show the recipe only if it is ready
-                    recipeState?.let { recipe ->
-                        val uriHandler = LocalUriHandler.current
-                        RecipeDetailsScreen(
-                            recipe = recipe,
-                            ingredientsPassed = args.dataFromNetwork,
-                            onFavouriteClick = { viewModel.toggleFavourite() },
-                            onOpenInstructions = { url -> uriHandler.openUri(url) }
-                        )
-                    } ?: Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        // If it is not ready show a loading indicator
-                        CircularProgressIndicator()
-                    }
+                    val uriHandler = LocalUriHandler.current
+                    RecipeDetailsScreen(
+                        recipe = recipeState,
+                        ingredientsPassed = args.dataFromNetwork,
+                        onFavouriteClick = { viewModel.toggleFavourite() },
+                        onOpenInstructions = { url -> uriHandler.openUri(url) }
+                    )
                 }
             }
         }

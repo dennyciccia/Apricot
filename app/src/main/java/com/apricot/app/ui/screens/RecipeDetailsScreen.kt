@@ -48,7 +48,6 @@ import kotlin.collections.orEmpty
 @Composable
 fun RecipeDetailsScreen(
     recipe: Recipe,
-    ingredientsPassed: Boolean,
     onFavouriteClick: () -> Unit,
     onOpenInstructions: (String) -> Unit
 ) {
@@ -146,12 +145,8 @@ fun RecipeDetailsScreen(
             }
 
             // Available ingredients
-            if (ingredientsPassed)
+            if (recipe.usedIngredientCount != null && recipe.missedIngredientCount != null)
                 item {
-                    // TODO: Quando si fa la chiamata GET per i dettagli della ricetta non vengono forniti gli ingredienti,
-                    // TODO: bisogna cambiare la logica in modo che la ricetta venga passata dalla schermata prima,
-                    // TODO: nel caso in cui si visualizza una ricetta nei preferiti non serve fare niente perchè gli ingredienti non ci sono in quel caso,
-                    // TODO: al massimo si può eseguire questo blocco quando gli ingredienti sono null senza usare args.dataFromNetwork.
                     AvailableIngredientsCard(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         recipe = recipe,

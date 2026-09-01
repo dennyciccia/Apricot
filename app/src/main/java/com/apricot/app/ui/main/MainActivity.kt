@@ -44,6 +44,7 @@ import androidx.preference.PreferenceManager
 import com.apricot.app.R
 import com.apricot.app.data.database.AppDatabase
 import com.apricot.app.data.ml.PhotoClassifier
+import com.apricot.app.data.model.Recipe
 import com.apricot.app.data.mvvm.SearchResultsViewModel
 import com.apricot.app.data.mvvm.DisplayResultsViewModelFactory
 import com.apricot.app.data.mvvm.FavouriteRecipesViewModel
@@ -71,6 +72,7 @@ import com.apricot.app.ui.navigation.SearchFormRoute
 import com.apricot.app.ui.navigation.SearchResultsRoute
 import com.apricot.app.ui.navigation.FavouritesRoute
 import com.apricot.app.ui.navigation.RecipeDetailsRoute
+import com.apricot.app.ui.navigation.RecipeNavType
 import com.apricot.app.ui.navigation.SettingsRoute
 import com.apricot.app.ui.theme.AppTheme
 import kotlin.reflect.typeOf
@@ -225,47 +227,35 @@ class MainActivity : ComponentActivity() {
                             viewModel = viewModel,
                             onRecipeClick = { recipe ->
                                 navController.navigate(
-                                    route = RecipeDetailsRoute(
-                                        recipeID = recipe.id,
-                                        dataFromNetwork = true
-                                    )
+                                    route = RecipeDetailsRoute(recipe = recipe)
                                 )
                             }
                         )
                     }
 
-                    composable<RecipeDetailsRoute> { backStackEntry ->
+                    composable<RecipeDetailsRoute>(
+                        typeMap = mapOf(typeOf<Recipe>() to RecipeNavType)
+                    ) { backStackEntry ->
                         val route: RecipeDetailsRoute = backStackEntry.toRoute()
                         val context = LocalContext.current
                         val viewModel: RecipeDetailsViewModel = viewModel(
+                            key = route.recipe.id.toString(),
                             factory = remember(context) {
                                 val api = RetrofitInstance.api
                                 val dao = AppDatabase.getDatabase(context).favouriteDao()
                                 val repository = RecipeRepository(api, dao)
-                                RecipeDetailsViewModelFactory(repository)
+                                RecipeDetailsViewModelFactory(repository, route.recipe)
                             }
                         )
 
-                        LaunchedEffect(route.recipeID, route.dataFromNetwork) {
-                            viewModel.loadRecipe(route.recipeID, route.dataFromNetwork)
-                        }
-
                         val recipeState by viewModel.recipeData.collectAsStateWithLifecycle()
 
-                        recipeState?.let { recipe ->
-                            val uriHandler = LocalUriHandler.current
-                            RecipeDetailsScreen(
-                                recipe = recipe,
-                                ingredientsPassed = route.dataFromNetwork,
-                                onFavouriteClick = { viewModel.toggleFavourite() },
-                                onOpenInstructions = { url -> uriHandler.openUri(url) }
-                            )
-                        } ?: Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
+                        val uriHandler = LocalUriHandler.current
+                        RecipeDetailsScreen(
+                            recipe = recipeState,
+                            onFavouriteClick = { viewModel.toggleFavourite() },
+                            onOpenInstructions = { url -> uriHandler.openUri(url) }
+                        )
                     }
 
                     composable<FavouritesRoute> {
@@ -283,10 +273,7 @@ class MainActivity : ComponentActivity() {
                             viewModel = viewModel,
                             onRecipeClick = { recipe ->
                                 navController.navigate(
-                                    route = RecipeDetailsRoute(
-                                        recipeID = recipe.id,
-                                        dataFromNetwork = false
-                                    )
+                                    route = RecipeDetailsRoute(recipe = recipe)
                                 )
                             }
                         )

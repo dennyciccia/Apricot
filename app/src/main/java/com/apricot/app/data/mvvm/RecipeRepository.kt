@@ -44,15 +44,6 @@ class RecipeRepository (
         return results
     }
 
-    suspend fun getRecipeDetails(recipeID: Int, fromNetwork: Boolean): Recipe {
-        return if (fromNetwork) {
-            val isAlreadySaved = dao.exists(recipeID)
-            api.getRecipeDetails(recipeID).toRecipe().copy(isFavourite = isAlreadySaved)
-        } else {
-            dao.getRecipeByID(recipeID).toRecipe().copy(isFavourite = true)
-        }
-    }
-
     suspend fun saveAsFavorite(recipe: Recipe) {
         dao.insertFavourite(recipe.toFavouriteRecipeEntity())
     }
