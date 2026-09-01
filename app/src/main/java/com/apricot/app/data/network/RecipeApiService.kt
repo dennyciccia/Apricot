@@ -13,10 +13,10 @@ interface RecipeApiService {
         @Query("query") query: String?,
         @Query("type") type: String?,
         @Query("diet") diet: String?,
-        @Query("cuisine") cuisine: String?,
         @Query("intolerances") intolerances: String?,
-        @Query("maxReadyTime") maxReadyTime: String?,
-        @Query("number") number: String?,
+        @Query("cuisine") cuisine: String?,
+        @Query("maxReadyTime") maxReadyTime: Int?,
+        @Query("number") number: Int?,
         @Query("addRecipeInformation") addRecipeInformation: Boolean?,
         @Query("fillIngredients") fillIngredients: Boolean?
     ): ComplexSearchResponse

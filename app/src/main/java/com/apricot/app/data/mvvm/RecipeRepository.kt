@@ -2,6 +2,7 @@ package com.apricot.app.data.mvvm
 
 import com.apricot.app.data.database.FavouriteDao
 import com.apricot.app.data.model.Recipe
+import com.apricot.app.data.model.SearchParams
 import com.apricot.app.data.network.RecipeApiService
 import com.apricot.app.ui.fragments.DisplayResultsFragmentArgs
 import kotlinx.coroutines.flow.Flow
@@ -12,23 +13,24 @@ class RecipeRepository (
     private val dao : FavouriteDao
 ) {
 
-    suspend fun findRecipes(searchArgs: DisplayResultsFragmentArgs) : List<Recipe> {
+    suspend fun findRecipes(searchArgs: SearchParams) : List<Recipe> {
         // Preparing request parameters
-        var diets = ""
-        if (searchArgs.glutenFree) diets += "Gluten Free,"
-        if (searchArgs.vegetarian) diets += "Vegetarian"
-        if (searchArgs.vegan) diets += "Vegan"
+        val dietsSet: MutableSet<String> = mutableSetOf()
+        if (searchArgs.glutenFree) dietsSet.add("Gluten Free")
+        if (searchArgs.vegetarian) dietsSet.add("Vegetarian")
+        if (searchArgs.vegan) dietsSet.add("Vegan")
+        val diets = dietsSet.joinToString(",")
 
-        // GET request
+        // GET request with parameter parsing for Spoonacular API
         val response = api.findRecipes(
-            if (!searchArgs.ingredients.isEmpty()) searchArgs.ingredients else null,
-            if (!searchArgs.query.isEmpty()) searchArgs.query else null,
-            if (!searchArgs.types.isEmpty()) searchArgs.types else null,
-            if (!diets.isEmpty()) diets else null,
-            if (!searchArgs.cuisines.isEmpty()) searchArgs.cuisines else null,
-            if (!searchArgs.intolerances.isEmpty()) searchArgs.intolerances else null,
-            if (!searchArgs.maxReadyTime.isEmpty()) searchArgs.maxReadyTime else null,
-            if (!searchArgs.resultsLimit.isEmpty()) searchArgs.resultsLimit else "100",
+            includeIngredients = if (!searchArgs.ingredients.isNullOrEmpty()) searchArgs.ingredients.joinToString(",") else null,
+            query = searchArgs.query,
+            type = if (!searchArgs.recipeTypes.isNullOrEmpty()) searchArgs.recipeTypes.joinToString(",") else null,
+            diet = if (!diets.isEmpty()) diets else null,
+            intolerances = if (!searchArgs.intolerances.isNullOrEmpty()) searchArgs.intolerances.joinToString(",") else null,
+            cuisine = if (!searchArgs.cuisines.isNullOrEmpty()) searchArgs.cuisines.joinToString(",") else null,
+            maxReadyTime = searchArgs.maxPreparationTimeMinutes,
+            number = searchArgs.resultsLimit,
             addRecipeInformation = true,
             fillIngredients = true
         )

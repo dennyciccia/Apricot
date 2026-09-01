@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.apricot.app.data.model.Recipe
+import com.apricot.app.data.model.SearchParams
 import com.apricot.app.ui.fragments.DisplayResultsFragmentArgs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,7 @@ class SearchResultsViewModel (private val repository: RecipeRepository) : ViewMo
     private var isLoaded = false
 
     // Called by fragment to load data
-    fun loadRecipesIfNeeded(searchArgs: DisplayResultsFragmentArgs) {
+    fun loadRecipesIfNeeded(searchArgs: SearchParams) {
         if(isLoaded) return
 
         viewModelScope.launch {

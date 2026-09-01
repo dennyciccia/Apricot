@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.apricot.app.R
+import com.apricot.app.data.model.SearchParams
 import com.apricot.app.data.mvvm.UserPreferences
 import com.apricot.app.ui.components.DiscreteSlider
 import com.apricot.app.ui.components.IngredientsInput
@@ -58,7 +59,7 @@ fun SearchFormScreen(
     onDismissDetectedIngredient: () -> Unit,
     onDismissNoResultDialog: () -> Unit,
     onCameraClick: () -> Unit,
-    onSubmit: (List<String>, String, Set<String>, Boolean, Boolean, Boolean, Set<String>, Set<String>, Int, Int) -> Unit
+    onSubmit: (SearchParams) -> Unit
 ) {
     // Initialize input fields values on first composition
     var ingredients by remember { mutableStateOf(emptyList<String>()) }
@@ -164,16 +165,11 @@ fun SearchFormScreen(
                     Button(
                         onClick = {
                             onSubmit(
-                                ingredients,
-                                query,
-                                selectedTypes,
-                                isGlutenFree,
-                                isVegan,
-                                isVegetarian,
-                                selectedIntolerances,
-                                selectedCuisines,
-                                maxReadyTime,
-                                resultsLimit
+                                SearchParams(
+                                    ingredients, query, selectedTypes,
+                                    isGlutenFree, isVegan, isVegetarian, selectedIntolerances,
+                                    selectedCuisines, maxReadyTime, resultsLimit
+                                )
                             )
                         },
                         modifier = Modifier.weight(1f)

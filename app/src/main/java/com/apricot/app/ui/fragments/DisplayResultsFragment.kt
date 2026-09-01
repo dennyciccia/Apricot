@@ -73,7 +73,7 @@ class  DisplayResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Load Recipes (search with GET API)
-        viewModel.loadRecipesIfNeeded(args)
+        //viewModel.loadRecipesIfNeeded(args)
     }
 }
 

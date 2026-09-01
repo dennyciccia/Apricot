@@ -59,12 +59,13 @@ import com.apricot.app.data.network.RetrofitInstance
 import com.apricot.app.ui.components.BottomNavigationBar
 import com.apricot.app.ui.components.IngredientScannerFAB
 import com.apricot.app.ui.screens.HomeScreen
-import com.apricot.app.ui.fragments.DisplayResultsFragmentArgs
 import com.apricot.app.ui.screens.SearchResultsScreen
 import com.apricot.app.ui.screens.FavouritesScreen
 import com.apricot.app.ui.screens.RecipeDetailsScreen
 import com.apricot.app.ui.screens.SearchFormScreen
 import com.apricot.app.ui.screens.SettingsScreen
+import com.apricot.app.data.model.SearchParams
+import com.apricot.app.ui.navigation.SearchParamsNavType
 import com.apricot.app.ui.navigation.HomeRoute
 import com.apricot.app.ui.navigation.SearchFormRoute
 import com.apricot.app.ui.navigation.SearchResultsRoute
@@ -72,6 +73,7 @@ import com.apricot.app.ui.navigation.FavouritesRoute
 import com.apricot.app.ui.navigation.RecipeDetailsRoute
 import com.apricot.app.ui.navigation.SettingsRoute
 import com.apricot.app.ui.theme.AppTheme
+import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
 
@@ -194,25 +196,16 @@ class MainActivity : ComponentActivity() {
                             onDismissDetectedIngredient = { detectedResult = null },
                             onDismissNoResultDialog = { showNoResultDialog = false },
                             onCameraClick = { takePictureLauncher.launch(null) },
-                            onSubmit = { ingredients, query, types, glutenFree, vegan, vegetarian, intolerances, cuisines, maxTime, limit ->
-                                val route = SearchResultsRoute(
-                                    ingredients = ingredients,
-                                    query = query,
-                                    recipeTypes = types.toList(),
-                                    glutenFree = glutenFree,
-                                    vegan = vegan,
-                                    vegetarian = vegetarian,
-                                    intolerances = intolerances.toList(),
-                                    cuisines = cuisines.toList(),
-                                    maxPreparationTimeMinutes = maxTime,
-                                    resultsLimit = limit
-                                )
+                            onSubmit = { params ->
+                                val route = SearchResultsRoute(params)
                                 navController.navigate(route)
                             }
                         )
                     }
 
-                    composable<SearchResultsRoute> { backStackEntry ->
+                    composable<SearchResultsRoute>(
+                        typeMap = mapOf(typeOf<SearchParams>() to SearchParamsNavType)
+                    ) { backStackEntry ->
                         val route: SearchResultsRoute = backStackEntry.toRoute()
                         val context = LocalContext.current
                         val viewModel: SearchResultsViewModel = viewModel(
@@ -225,19 +218,7 @@ class MainActivity : ComponentActivity() {
                         )
 
                         LaunchedEffect(route) {
-                            val args = DisplayResultsFragmentArgs(
-                                ingredients = route.ingredients?.joinToString(",") ?: "",
-                                query = route.query ?: "",
-                                types = route.recipeTypes?.joinToString(",") ?: "",
-                                glutenFree = route.glutenFree,
-                                vegetarian = route.vegetarian,
-                                vegan = route.vegan,
-                                cuisines = route.cuisines?.joinToString(",") ?: "",
-                                intolerances = route.intolerances?.joinToString(",") ?: "",
-                                maxReadyTime = route.maxPreparationTimeMinutes?.toString() ?: "",
-                                resultsLimit = route.resultsLimit?.toString() ?: "10"
-                            )
-                            viewModel.loadRecipesIfNeeded(args)
+                            viewModel.loadRecipesIfNeeded(route.searchParams)
                         }
 
                         SearchResultsScreen(
