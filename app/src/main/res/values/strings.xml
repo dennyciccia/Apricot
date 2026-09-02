@@ -90,4 +90,7 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_system">System</string>
+    <string name="scanning_error_message">Error during ingredient scanning</string>
+    <string name="detected_ingredient_search_dialog">Search</string>
+    <string name="detected_ingredient_retry_dialog">Retry</string>
 </resources>

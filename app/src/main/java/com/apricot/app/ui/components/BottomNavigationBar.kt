@@ -39,7 +39,8 @@ private data class NavigationItem<T : Any>(
 @Composable
 fun BottomNavigationBar(
     currentDestination: NavDestination?,
-    onNavigate: (Any) -> Unit
+    onNavigate: (Any) -> Unit,
+    isTabSelected: (KClass<*>) -> Boolean = { routeClass -> currentDestination?.hasRoute(routeClass) == true }
 ) {
     val items = listOf(
         NavigationItem(HomeRoute, HomeRoute::class, stringResource(R.string.home), Icons.Default.Home),
@@ -50,7 +51,7 @@ fun BottomNavigationBar(
 
     NavigationBar {
         items.forEach { item ->
-            val isSelected = currentDestination?.hasRoute(item.routeClass) == true
+            val isSelected = isTabSelected(item.routeClass)
             NavigationBarItem(
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(item.label) },
