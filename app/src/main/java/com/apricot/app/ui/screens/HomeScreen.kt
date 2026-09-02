@@ -29,7 +29,7 @@ fun HomeScreen() {
 @Composable
 fun HomeContent(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.apricot_character)
+        LottieCompositionSpec.RawRes(R.raw.apricot_character_dotlottie)
     )
 
     var isPlaying by remember { mutableStateOf(false) }
