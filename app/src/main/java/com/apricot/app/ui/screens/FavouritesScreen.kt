@@ -57,8 +57,8 @@ fun FavouritesScreen(
 
     val favouriteRecipes by viewModel.favouriteRecipes.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val recipeRemovedText = stringResource(R.string.recipe_removed_from_favourites)
-    val undoText = stringResource(R.string.undo)
+    val recipeRemovedText = stringResource(R.string.recipe_removed_from_favourites_message)
+    val undoText = stringResource(R.string.undo_recipe_removal_action_label)
 
     LaunchedEffect(viewModel.events) {
         viewModel.events.collectLatest { event ->
@@ -102,7 +102,7 @@ fun FavouritesContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.favourite_recipes),
+                        text = stringResource(R.string.favourite_screen_title),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -118,7 +118,7 @@ fun FavouritesContent(
         ) {
             if (favouriteRecipes.isEmpty()) {
                 Text(
-                    text = stringResource(R.string.no_results),
+                    text = stringResource(R.string.no_favourites_message),
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 20.sp,
                     modifier = Modifier.align(Alignment.Center)

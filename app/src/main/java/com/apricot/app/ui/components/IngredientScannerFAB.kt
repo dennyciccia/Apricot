@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFloatingActionButton
 import androidx.compose.runtime.Composable
@@ -36,7 +34,7 @@ fun IngredientScannerFAB(
     ) {
         Icon(
             imageVector = Icons.Default.PhotoCamera,
-            contentDescription = stringResource(R.string.content_description_scanner_fab)
+            contentDescription = stringResource(R.string.scanner_fab_content_description)
         )
     }
 }
@@ -47,7 +45,7 @@ fun IngredientScannerFABPreview() {
     AppTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             IngredientScannerFAB(
-                onScanClick = { /* Azione mock per ora */ },
+                onScanClick = {},
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)

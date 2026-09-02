@@ -64,7 +64,7 @@ fun ScannerResultDialog(
                     TextButton(
                         onClick = onDismiss
                     ) {
-                        Text(text = stringResource(R.string.add_detected_ingredient_deny_label))
+                        Text(text = stringResource(R.string.add_detected_ingredient_dialog_deny_label))
                     }
                 }
             )

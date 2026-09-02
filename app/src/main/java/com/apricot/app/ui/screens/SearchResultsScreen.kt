@@ -85,7 +85,7 @@ fun SearchResultsContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.search_results),
+                        text = stringResource(R.string.search_results_screen_title),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -106,7 +106,7 @@ fun SearchResultsContent(
                 }
                 recipesList.isEmpty() -> {
                     Text(
-                        text = stringResource(R.string.no_results),
+                        text = stringResource(R.string.no_results_message),
                         style = MaterialTheme.typography.bodyLarge,
                         fontSize = 20.sp,
                         modifier = Modifier.align(Alignment.Center)

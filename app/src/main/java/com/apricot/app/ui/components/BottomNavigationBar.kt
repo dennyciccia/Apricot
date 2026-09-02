@@ -43,10 +43,10 @@ fun BottomNavigationBar(
     isTabSelected: (KClass<*>) -> Boolean = { routeClass -> currentDestination?.hasRoute(routeClass) == true }
 ) {
     val items = listOf(
-        NavigationItem(HomeRoute, HomeRoute::class, stringResource(R.string.home), Icons.Default.Home),
-        NavigationItem(SearchFormRoute, SearchFormRoute::class, stringResource(R.string.search_label), Icons.Default.Search),
-        NavigationItem(FavouritesRoute, FavouritesRoute::class, stringResource(R.string.favourites), Icons.Default.Favorite),
-        NavigationItem(SettingsRoute, SettingsRoute::class, stringResource(R.string.settings), Icons.Default.Settings)
+        NavigationItem(HomeRoute, HomeRoute::class, stringResource(R.string.bottom_navigation_bar_home_label), Icons.Default.Home),
+        NavigationItem(SearchFormRoute, SearchFormRoute::class, stringResource(R.string.bottom_navigation_bar_search_label), Icons.Default.Search),
+        NavigationItem(FavouritesRoute, FavouritesRoute::class, stringResource(R.string.bottom_navigation_bar_favourites_label), Icons.Default.Favorite),
+        NavigationItem(SettingsRoute, SettingsRoute::class, stringResource(R.string.bottom_navigation_bar_settings_label), Icons.Default.Settings)
     )
 
     NavigationBar {

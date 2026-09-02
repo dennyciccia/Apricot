@@ -91,8 +91,8 @@ fun SettingsContent(
         )
 
         SettingSwitchItem(
-            title = stringResource(R.string.food_specific_ml_model),
-            summary = stringResource(R.string.food_specific_ml_model_summary),
+            title = stringResource(R.string.use_food_specific_ml_model_setting_title),
+            summary = stringResource(R.string.use_food_specific_ml_model_setting_summary),
             checked = preferences.useFoodSpecificMlModel,
             onCheckedChange = onUseFoodSpecificMlModelChange
         )
@@ -106,28 +106,28 @@ fun SettingsContent(
         )
 
         SettingSwitchItem(
-            title = stringResource(R.string.gluten_free_only),
-            summary = stringResource(R.string.gluten_free_only_summary),
+            title = stringResource(R.string.gluten_free_only_setting_title),
+            summary = stringResource(R.string.gluten_free_only_setting_summary),
             checked = preferences.glutenFreeOnly,
             onCheckedChange = onGlutenFreeOnlyChange
         )
 
         SettingSwitchItem(
-            title = stringResource(R.string.vegetarian_only),
-            summary = stringResource(R.string.vegetarian_only_summary),
+            title = stringResource(R.string.vegetarian_only_setting_title),
+            summary = stringResource(R.string.vegetarian_only_setting_summary),
             checked = preferences.vegetarianOnly,
             onCheckedChange = onVegetarianOnlyChange
         )
 
         SettingSwitchItem(
-            title = stringResource(R.string.vegan_only),
-            summary = stringResource(R.string.vegan_only_summary),
+            title = stringResource(R.string.vegan_only_setting_title),
+            summary = stringResource(R.string.vegan_only_setting_summary),
             checked = preferences.veganOnly,
             onCheckedChange = onVeganOnlyChange
         )
 
         MultiSelectExposedDropdown(
-            label = stringResource(R.string.intolerances),
+            label = stringResource(R.string.intolerances_input_label),
             options = stringArrayResource(R.array.intolerances_labels).toList(),
             selectedOptions = preferences.intolerances,
             onSelectionChange = onIntolerancesChange,
@@ -135,7 +135,7 @@ fun SettingsContent(
         )
 
         MultiSelectExposedDropdown(
-            label = stringResource(R.string.cuisines),
+            label = stringResource(R.string.cuisines_input_label),
             options = stringArrayResource(R.array.cuisines_labels).toList(),
             selectedOptions = preferences.cuisines,
             onSelectionChange = onCuisinesChange,
@@ -152,7 +152,7 @@ fun SettingsContent(
                 }
             },
             label = { Text(stringResource(R.string.max_preparation_time_label)) },
-            placeholder = { Text(stringResource(R.string.hint_edit_text_max_ready_time)) },
+            placeholder = { Text(stringResource(R.string.max_preparation_time_setting_placeholder)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
@@ -167,7 +167,7 @@ fun SettingsContent(
                 }
             },
             label = { Text(stringResource(R.string.results_limit_label)) },
-            placeholder = { Text(stringResource(R.string.hint_edit_text_results_limit)) },
+            placeholder = { Text(stringResource(R.string.results_limit_setting_placeholder)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )

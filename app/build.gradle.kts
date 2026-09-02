@@ -4,16 +4,12 @@ buildscript {
     repositories {
         google()
     }
-    dependencies {
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.9.7")
-    }
 }
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.legacy.kapt)
     alias(libs.plugins.kotlin.serialization)
-    id("androidx.navigation.safeargs.kotlin")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -23,7 +19,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-        viewBinding = true
         compose = true
     }
 
@@ -63,54 +58,30 @@ dependencies {
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
-    // Librerie base UI e Fondamenta
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.googlefonts)
-
-    // Material Design 3 (Material You)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.coilCompose)
-
-    // Integrazione con Activity
     implementation(libs.androidx.activity.compose)
-
-    // Anteprima UI in Android Studio
     implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
-    // Navigation (per passare da una schermata all'altra in Compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
-
-    // Integrazione ViewModel con Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    // DataStore Preferences
     implementation(libs.androidx.datastore.preferences)
-
-    // Lottie animation
     implementation(libs.lottie.compose)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.recyclerview)
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-    implementation("io.coil-kt:coil:2.7.0")
-    implementation("androidx.preference:preference-ktx:1.2.1")
-    implementation("androidx.room:room-runtime:2.8.4")
-    implementation("com.google.mediapipe:tasks-vision:latest.release")
-    kapt("androidx.room:room-compiler:2.8.4")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.tasks.vision)
+    kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

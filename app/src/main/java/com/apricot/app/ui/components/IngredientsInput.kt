@@ -42,8 +42,8 @@ fun IngredientsInput(
     onIngredientsChange: (List<String>) -> Unit,
     modifier: Modifier = Modifier,
     ingredients: List<String> = emptyList(),
-    label: String = stringResource(R.string.label_ingredients_input),
-    placeholder: String = stringResource(R.string.placeholder_ingredients_input),
+    label: String = stringResource(R.string.ingredients_input_label),
+    placeholder: String = stringResource(R.string.ingredients_input_placeholder),
     onCameraClick: (() -> Unit)? = null
 ) {
     var text by remember { mutableStateOf("") }
@@ -72,7 +72,7 @@ fun IngredientsInput(
                     IconButton(onClick = it) {
                         Icon(
                             imageVector = Icons.Default.PhotoCamera,
-                            contentDescription = stringResource(R.string.content_description_scanner_fab)
+                            contentDescription = stringResource(R.string.scanner_fab_content_description)
                         )
                     }
                 }

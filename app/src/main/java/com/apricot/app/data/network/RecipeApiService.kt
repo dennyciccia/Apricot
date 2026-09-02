@@ -1,9 +1,7 @@
 package com.apricot.app.data.network
 
 import com.apricot.app.data.model.ComplexSearchResponse
-import com.apricot.app.data.model.RecipeInformationResponse
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RecipeApiService {
@@ -20,9 +18,4 @@ interface RecipeApiService {
         @Query("addRecipeInformation") addRecipeInformation: Boolean?,
         @Query("fillIngredients") fillIngredients: Boolean?
     ): ComplexSearchResponse
-
-    @GET("recipes/{id}/information")
-    suspend fun getRecipeDetails(
-        @Path("id") id: Int
-    ): RecipeInformationResponse
 }

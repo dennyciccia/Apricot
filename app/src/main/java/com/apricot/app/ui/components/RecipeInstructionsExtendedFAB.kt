@@ -25,7 +25,7 @@ fun RecipeInstructionsExtendedFAB(
     ExtendedFloatingActionButton(
         text = {
             Text(
-                text = stringResource(id = R.string.show_recipe_instructions),
+                text = stringResource(id = R.string.show_recipe_instructions_extended_fab_label),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
             )
@@ -33,7 +33,7 @@ fun RecipeInstructionsExtendedFAB(
         icon = {
             Icon(
                 imageVector = book_2,
-                contentDescription = stringResource(R.string.content_description_recipe_instructions_fab),
+                contentDescription = stringResource(R.string.show_recipe_instructions_extended_fab_content_description),
             )
         },
         modifier = modifier,

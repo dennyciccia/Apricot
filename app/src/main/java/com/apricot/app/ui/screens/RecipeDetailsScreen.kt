@@ -217,27 +217,27 @@ fun RecipeDetailsContent(
                     if (recipe.glutenFree == true) {
                         SuggestionChip(
                             onClick = {},
-                            label = { Text(stringResource(R.string.gluten_free_label)) },
+                            label = { Text(stringResource(R.string.gluten_free_chip_label)) },
                             icon = { Icon(wheat, contentDescription = null) }
                         )
                     }
                     if (recipe.vegan == true) {
                         SuggestionChip(
                             onClick = {},
-                            label = { Text(stringResource(R.string.vegan_label)) },
+                            label = { Text(stringResource(R.string.vegan_chip_label)) },
                             icon = { Icon(temp_preferences_eco, contentDescription = null) }
                         )
                     } else if (recipe.vegetarian == true) {
                         SuggestionChip(
                             onClick = {},
-                            label = { Text(stringResource(R.string.vegetarian_label)) },
+                            label = { Text(stringResource(R.string.vegetarian_chip_label)) },
                             icon = { Icon(avocado_bean, contentDescription = null) }
                         )
                     }
                     if (recipe.sustainable == true) {
                         SuggestionChip(
                             onClick = {},
-                            label = { Text(stringResource(R.string.sustainable_label)) },
+                            label = { Text(stringResource(R.string.sustainable_chip_label)) },
                             icon = { Icon(Icons.Default.Eco, contentDescription = null) }
                         )
                     }

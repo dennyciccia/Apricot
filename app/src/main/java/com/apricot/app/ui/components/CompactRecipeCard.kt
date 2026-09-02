@@ -95,7 +95,7 @@ fun CompactRecipeCard(
 
                         Text(
                             text = stringResource(
-                                R.string.X_frac_Y_ingredients,
+                                R.string.X_frac_Y_ingredients_label,
                                 availableIngredients, totalIngredients
                             ),
                             style = MaterialTheme.typography.bodySmall,

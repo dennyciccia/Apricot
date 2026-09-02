@@ -44,7 +44,6 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.preference.PreferenceManager
 import com.apricot.app.R
 import com.apricot.app.data.ml.PhotoClassifier
 import com.apricot.app.data.model.SearchParams
@@ -63,13 +62,8 @@ fun SearchFormScreen(
     onSubmit: (SearchParams) -> Unit
 ) {
     val context = LocalContext.current
-    val sharedPreferences = remember(context) { PreferenceManager.getDefaultSharedPreferences(context) }
-    val foodSpecificKey = stringResource(R.string.food_specific_ml_model_key)
-    val useFoodSpecificModel = remember(context, foodSpecificKey) {
-        sharedPreferences.getBoolean(foodSpecificKey, false)
-    }
-    val photoClassifier = remember(context, useFoodSpecificModel) {
-        PhotoClassifier(context, useFoodSpecificModel)
+    val photoClassifier = remember(context, userPreferences.useFoodSpecificMlModel) {
+        PhotoClassifier(context, userPreferences.useFoodSpecificMlModel)
     }
     DisposableEffect(photoClassifier) {
         onDispose { photoClassifier.close() }
@@ -165,12 +159,12 @@ fun SearchFormContent(
                     }
                     onConfirmDetectedIngredient()
                 }) {
-                    Text(stringResource(R.string.add_detected_ingredient_confirm_label))
+                    Text(stringResource(R.string.add_detected_ingredient_dialog_confirm_label))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismissDetectedIngredient) {
-                    Text(stringResource(R.string.add_detected_ingredient_deny_label))
+                    Text(stringResource(R.string.add_detected_ingredient_dialog_deny_label))
                 }
             }
         )
@@ -196,7 +190,7 @@ fun SearchFormContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.search_screen_title),
+                        text = stringResource(R.string.search_form_screen_title),
                         style = MaterialTheme.typography.headlineMedium,
                     )
                 }
@@ -214,7 +208,7 @@ fun SearchFormContent(
                         onClick = resetFields,
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text(stringResource(R.string.button_reset_search_form))
+                        Text(stringResource(R.string.search_form_reset_button))
                     }
                     Button(
                         onClick = {
@@ -228,7 +222,7 @@ fun SearchFormContent(
                         },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text(stringResource(R.string.button_submit_search_form))
+                        Text(stringResource(R.string.search_form_submit_button))
                     }
                 }
             }
@@ -251,7 +245,7 @@ fun SearchFormContent(
 
                     // Ingredients input section
                     Text(
-                        text = stringResource(R.string.ingrediets_section_title),
+                        text = stringResource(R.string.ingrediets_input_section_title),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -275,8 +269,8 @@ fun SearchFormContent(
                         value = query,
                         onValueChange = { query = it },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text(stringResource(R.string.label_query_input)) },
-                        placeholder = { Text(stringResource(R.string.placeholder_query_input)) },
+                        label = { Text(stringResource(R.string.query_input_label)) },
+                        placeholder = { Text(stringResource(R.string.query_input_placeholder)) },
                         singleLine = true,
                     )
 
@@ -303,7 +297,7 @@ fun SearchFormContent(
                         FilterChip(
                             selected = isGlutenFree,
                             onClick = { isGlutenFree = !isGlutenFree },
-                            label = { Text(stringResource(R.string.gluten_free_label)) },
+                            label = { Text(stringResource(R.string.gluten_free_chip_label)) },
                             leadingIcon = {
                                 if (isGlutenFree) {
                                     Icon(
@@ -326,7 +320,7 @@ fun SearchFormContent(
                                 isVegan = !isVegan
                                 if (isVegan) isVegetarian = false
                             },
-                            label = { Text(stringResource(R.string.vegan_label)) },
+                            label = { Text(stringResource(R.string.vegan_chip_label)) },
                             leadingIcon = {
                                 if (isVegan) {
                                     Icon(
@@ -349,7 +343,7 @@ fun SearchFormContent(
                                 isVegetarian = !isVegetarian
                                 if (isVegetarian) isVegan = false
                             },
-                            label = { Text(stringResource(R.string.vegetarian_label)) },
+                            label = { Text(stringResource(R.string.vegetarian_chip_label)) },
                             leadingIcon = {
                                 if (isVegetarian) {
                                     Icon(
@@ -369,7 +363,7 @@ fun SearchFormContent(
                     }
 
                     MultiSelectExposedDropdown(
-                        label = stringResource(R.string.intolerances),
+                        label = stringResource(R.string.intolerances_input_label),
                         options = stringArrayResource(R.array.intolerances_labels).toList(),
                         selectedOptions = selectedIntolerances,
                         onSelectionChange = { selectedIntolerances = it }
@@ -385,7 +379,7 @@ fun SearchFormContent(
                     )
 
                     MultiSelectExposedDropdown(
-                        label = stringResource(R.string.cuisines),
+                        label = stringResource(R.string.cuisines_input_label),
                         options = stringArrayResource(R.array.cuisines_labels).toList(),
                         selectedOptions = selectedCuisines,
                         onSelectionChange = { selectedCuisines = it }
