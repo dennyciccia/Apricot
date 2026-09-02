@@ -22,8 +22,6 @@ Place it in `local.properties` file in `SPOONACULAR_API_KEY` variable.
 
 ## Future additions
 
-- A prettier UI.
-
 - Translator:  
 Possibility to use the app (and ask API) in other languages than english.
 
@@ -35,9 +33,7 @@ Display similar recipes in that fragment by using Spoonacular specific API.
 
 - More diets as search parameters (whole30, ketogenic, ...)
 
-- Save as favourite from DisplayResultsFragment:  
-Add a favourite icon in the recycler view card to allow the user to save the recipe as favourite.
-
 ## Attributions
 
 App icon: [Vecteezy.com](https://www.vecteezy.com)
+Animation: [Neon Agency](https://lottiefiles.com/neonagency)
