@@ -10,6 +10,7 @@ espressoCore = "3.7.0"
 appcompat = "1.7.1"
 kotlinxSerializationJson = "1.11.0"
 lifecycleViewmodelCompose = "2.11.0"
+lottieCompose = "6.7.1"
 material = "1.13.0"
 material3 = "1.5.0-alpha25"
 activity = "1.12.2"
@@ -46,6 +47,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
