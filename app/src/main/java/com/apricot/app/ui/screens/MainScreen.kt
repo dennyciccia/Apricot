@@ -35,7 +35,7 @@ import com.apricot.app.data.model.SearchParams
 import com.apricot.app.data.mvvm.ScannerUiState
 import com.apricot.app.data.mvvm.ScannerViewModel
 import com.apricot.app.data.mvvm.ScannerViewModelFactory
-import com.apricot.app.data.mvvm.UserPreferences
+import com.apricot.app.data.model.UserPreferences
 import com.apricot.app.data.mvvm.UserPreferencesRepository
 import com.apricot.app.ui.components.BottomNavigationBar
 import com.apricot.app.ui.components.IngredientScannerFAB

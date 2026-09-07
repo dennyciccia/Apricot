@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.apricot.app.data.mvvm.AppThemeConfig
+import com.apricot.app.data.model.AppThemeConfig
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,

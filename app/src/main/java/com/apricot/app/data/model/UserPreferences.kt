@@ -1,4 +1,4 @@
-package com.apricot.app.data.mvvm
+package com.apricot.app.data.model
 
 enum class AppThemeConfig {
     LIGHT, DARK, SYSTEM

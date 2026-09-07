@@ -28,10 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.apricot.app.R
-import com.apricot.app.data.mvvm.AppThemeConfig
+import com.apricot.app.data.model.AppThemeConfig
 import com.apricot.app.data.mvvm.SettingsViewModel
 import com.apricot.app.data.mvvm.SettingsViewModelFactory
-import com.apricot.app.data.mvvm.UserPreferences
+import com.apricot.app.data.model.UserPreferences
 import com.apricot.app.data.mvvm.UserPreferencesRepository
 import com.apricot.app.ui.components.MultiSelectExposedDropdown
 import com.apricot.app.ui.components.SettingSwitchItem

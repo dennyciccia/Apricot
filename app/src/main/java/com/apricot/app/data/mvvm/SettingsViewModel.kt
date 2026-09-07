@@ -3,6 +3,8 @@ package com.apricot.app.data.mvvm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.apricot.app.data.model.AppThemeConfig
+import com.apricot.app.data.model.UserPreferences
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

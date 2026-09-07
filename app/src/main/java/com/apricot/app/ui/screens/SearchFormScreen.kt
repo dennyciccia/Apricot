@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.apricot.app.R
 import com.apricot.app.data.ml.PhotoClassifier
 import com.apricot.app.data.model.SearchParams
-import com.apricot.app.data.mvvm.UserPreferences
+import com.apricot.app.data.model.UserPreferences
 import com.apricot.app.ui.components.DiscreteSlider
 import com.apricot.app.ui.components.IngredientsInput
 import com.apricot.app.ui.components.MultiSelectExposedDropdown
