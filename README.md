@@ -1,3 +1,5 @@
+
+
 # Apricot
 Don't know what to eat? Ask Apricot
 
@@ -11,14 +13,19 @@ Apricot lets you search for recipes based on what you have in the fridge to help
 
 The ML classifier allows to quickly scan an ingredient and search recipes with it.
 
-<video src="./assets/videos/ingredient_classifier.mp4" controls autoplay loop muted width="320" height="240"></video>
+https://github.com/user-attachments/assets/d70f84ae-4244-42fd-81dd-7425279013d3
 
 ## Screenshots
 
-<img src="./assets/images/home_night.jpg" alt="Home" width="200" />
-<img src="./assets/images/search_form_1_night.jpg" alt="Search form 1" width="200" /> <img src="./assets/images/search_form_2_night.jpg" alt="Search form 2" width="200" />
-<img src="./assets/images/search_results_night.jpg" alt="Search results" width="200" /> <img src="./assets/images/recipe_details_night.jpg" alt="Recipe details" width="200" /> 
-<img src="./assets/images/favourites_night.jpg" alt="Favourite recipes" width="200" /> <img src="./assets/images/settings_night.jpg" alt="Settings" width="200" />
+<details open>
+    <summary><b>Show/hide screenshots</b></summary>
+    <p>
+        <img src="./assets/images/home_night.jpg" alt="Home" width="200" />
+        <img src="./assets/images/search_form_1_night.jpg" alt="Search form 1" width="200" /> <img src="./assets/images/search_form_2_night.jpg" alt="Search form 2" width="200" />
+        <img src="./assets/images/search_results_night.jpg" alt="Search results" width="200" /> <img src="./assets/images/recipe_details_night.jpg" alt="Recipe details" width="200" /> 
+        <img src="./assets/images/favourites_night.jpg" alt="Favourite recipes" width="200" /> <img src="./assets/images/settings_night.jpg" alt="Settings" width="200" />
+    </p>
+</details>
 
 ## Usage
 
