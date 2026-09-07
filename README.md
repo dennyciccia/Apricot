@@ -7,6 +7,12 @@ Don't know what to eat? Ask Apricot
 
 Apricot lets you search for recipes based on what you have in the fridge to help you avoid wasting food.
 
+## Ingredient classifier
+
+The ML classifier allows to quickly scan an ingredient and search recipes with it.
+
+<video src="./assets/videos/ingredient_classifier.mp4" controls autoplay loop muted width="320" height="240"></video>
+
 ## Screenshots
 
 <img src="./assets/images/home_night.jpg" alt="Home" width="200" />
